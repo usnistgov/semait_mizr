@@ -1,5 +1,9 @@
 # mizr CHANGELOG
 
+## v2023.03.10
+
+Migration to new location and new overall name semait_mizr
+
 ## v2023.03.07
 
 This version is the overhaul of the software to prepare it for release.

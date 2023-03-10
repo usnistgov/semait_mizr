@@ -1,17 +1,27 @@
-# MIG Analyzer (mizr): Library for MIG Data Analysis
+# SEMAIT_mizr Analysis Software Library
 
-The MIg analyZeR (mizr) is the MIG Data Analyzer, written in R, that provides a package to produce plots in R. 
+Our work towards a Structured Evaluation Methodology for Artificial Intelligence Technology (SEMAIT) aims
+to provide plots, tools, methods, and strategies to extract insights out of various machine learning (ML)
+and Artificial Intelligence (AI) data.
 
-A quickstart is below. Full documentations (docs and vignettes) is pre-built and can be accessed from this [mizr docs index page](mizr/docs/index.html).
+Included in this software is the  MIg analyZeR (mizr) R software package that produces various plots. 
+It was initially developed within the Multimodal Information Group (MIG) at the 
+National Institute of Standards and Technology (NIST).
 
-This repository conaints the package mizr, as well as the template script for our work towards a Structured Evaluation Metholodgy for Artificial Intelligence Technology. 
+A quickstart is below. Full documentations (docs and vignettes) are available on [semait_mizr Gitlab pages](https://semait.ipages.nist.gov/semait_mizr)
 
-This version of mizr is currently built and tested on version 4.2.2 of R with ggplot 3.4.1.
+**For ease of updating, all of the paths and inputs required are at the top of each R file.**
+
+This repository contains the package mizr, as well as the template script for our work towards a Structured Evaluation Methodology for Artificial Intelligence Technology (SEMAIT). 
 
 This software is also used for our work on Towards a Structured Evaluation Methodology for Artificial Intelligence Technology (SEMAIT). The [R code to run the SEMAIT analysis on a sample dataset](scripts_semait/semait_analysis_sdms_script_code.R)
 is provided in `scripts_semait/semait_analysis_sdms_script_code.R` of this repository. A [documented R Markdown of the same script](mizr/vignettes/semait_analysis_sdms_documented.Rmd) is available as the vignette semait_analysis_sdms_documented.Rmd
 
 Please see our SEMAIT paper for more information (paper coming soon), and please cite our paper with the citation (citation coming soon)
+
+This version of mizr is currently built and tested on version 4.2.2 of R with ggplot 3.4.1 and will work on any OS
+and configuration that supports R 4.2.2 and ggplot 3.4.1. It has been tested both on Mac OS and Linux. As it has
+been implemented over different versions of R and ggplot, some functions may have depreciation warnings.
 
 ## Contact
 
@@ -23,7 +33,7 @@ Contributors to this code repository:
 
 * Peter Fontana (NIST)
 
-**For each of updating, all of the paths and inputs required are at the top of each R file.**
+
 
 # Quick Start
 
