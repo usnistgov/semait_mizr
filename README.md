@@ -1,152 +1,278 @@
-# NIST Open-Source Software Repository Template
+# MIG Analyzer (mizr): Library for MIG Data Analysis
 
-Use of GitHub by NIST employees for government work is subject to
-the [Rules of Behavior for GitHub][gh-rob]. This is the
-recommended template for NIST employees, since it contains
-required files with approved text. For details, please consult
-the Office of Data & Informatics' [Quickstart Guide to GitHub at
-NIST][gh-odi].
+The MIg analyZeR (mizr) is the MIG Data Analyzer, written in R, that provides a package to produce plots in R. 
 
-Please click on the green **Use this template** button above to
-create a new repository under the [usnistgov][gh-nst]
-organization for your own open-source work. Please do not "fork"
-the repository directly, and do not create the templated
-repository under your individual account.
+A quickstart is below. Full documentations (docs and vignettes) is pre-built and can be accessed from this [mizr docs index page](mizr/docs/index.html).
 
-The key files contained in this repository -- which will also
-appear in templated copies -- are listed below, with some things
-to know about each.
+This repository conaints the package mizr, as well as the template script for our work towards a Structured Evaluation Metholodgy for Artificial Intelligence Technology. 
 
----
+This version of mizr is currently built and tested on version 4.2.2 of R with ggplot 3.4.1.
 
-## README
+This software is also used for our work on Towards a Structured Evaluation Methodology for Artificial Intelligence Technology (SEMAIT). The [R code to run the SEMAIT analysis on a sample dataset](scripts_semait/semait_analysis_sdms_script_code.R)
+is provided in `scripts_semait/semait_analysis_sdms_script_code.R` of this repository. A [documented R Markdown of the same script](mizr/vignettes/semait_analysis_sdms_documented.Rmd) is available as the vignette semait_analysis_sdms_documented.Rmd
 
-Each repository will contain a plain-text [README file][wk-rdm],
-preferably formatted using [GitHub-flavored Markdown][gh-mdn] and
-named `README.md` (this file) or `README`.
+Please see our SEMAIT paper for more information (paper coming soon), and please cite our paper with the citation (citation coming soon)
 
-Per the [GitHub ROB][gh-rob] and [NIST Suborder 1801.02][nist-s-1801-02],
-your README should contain:
+## Contact
 
-1. Software or Data description
-   - Statements of purpose and maturity
-   - Description of the repository contents
-   - Technical installation instructions, including operating
-     system or software dependencies
-1. Contact information
-   - PI name, NIST OU, Division, and Group names
-   - Contact email address at NIST
-   - Details of mailing lists, chatrooms, and discussion forums,
-     where applicable
-1. Related Material
-   - URL for associated project on the NIST website or other Department
-     of Commerce page, if available
-   - References to user guides if stored outside of GitHub
-1. Directions on appropriate citation with example text
-1. References to any included non-public domain software modules,
-   and additional license language if needed, *e.g.* [BSD][li-bsd],
-   [GPL][li-gpl], or [MIT][li-mit]
+Please contact mizr@nist.gov with questions, comments, feedback, or issues.
 
-The more detailed your README, the more likely our colleagues
-around the world are to find it through a Web search. For general
-advice on writing a helpful README, please review
-[*Making Readmes Readable*][18f-guide] from 18F and Cornell's
-[*Guide to Writing README-style Metadata*][cornell-meta].
+## Contributors
 
-## LICENSE
+Contributors to this code repository:
 
-Each repository will contain a plain-text file named `LICENSE.md`
-or `LICENSE` that is phrased in compliance with the Public Access
-to NIST Research [*Copyright, Fair Use, and Licensing Statement
-for SRD, Data, and Software*][nist-open], which provides
-up-to-date official language for each category in a blue box.
+* Peter Fontana (NIST)
 
-- The version of [LICENSE.md](LICENSE.md) included in this
-  repository is approved for use.
-- Updated language on the [Licensing Statement][nist-open] page
-  supersedes the copy in this repository. You may transcribe the
-  language from the appropriate "blue box" on that page into your
-  README.
+**For each of updating, all of the paths and inputs required are at the top of each R file.**
 
-If your repository includes any software or data that is licensed
-by a third party, create a separate file for third-party licenses
-(`THIRD_PARTY_LICENSES.md` is recommended) and include copyright
-and licensing statements in compliance with the conditions of
-those licenses.
+# Quick Start
 
-## CODEOWNERS
+Here is a quick start to get up and running with the mizr tool. Right now mizr is an R package without a CLI. A CLI is to come shortly
 
-This template repository includes a file named
-[CODEOWNERS](CODEOWNERS), which visitors can view to discover
-which GitHub users are "in charge" of the repository. More
-crucially, GitHub uses it to assign reviewers on pull requests.
-GitHub documents the file (and how to write one) [here][gh-cdo].
+## Installing mizr
 
-***Please update that file*** to point to your own account or
-team, so that the [Open-Source Team][gh-ost] doesn't get spammed
-with spurious review requests. *Thanks!*
+If using a terminal, mizr can be installed by going into the root directory of this repository and running
 
-## CODEMETA
+```bash
+R CMD INSTALL --no-multiarch --with-keep.source mizr
+```
 
-Project metadata is captured in `CODEMETA.yaml`, used by the NIST
-Software Portal to sort your work under the appropriate thematic
-homepage. ***Please update this file*** with the appropriate
-"theme" and "category" for your code/data/software. The Tier 1
-themes are:
+Another way to install it is via RStudio. In RStudio, make a new project (or open a project) within the package folder mizr. That means that it is the `<repository_directory>/mizr` directory. After making a project, use the menu `Build -> Install and Restart` option. This will install the package `mizr`.
 
-- [Advanced communications](https://www.nist.gov/advanced-communications)
-- [Bioscience](https://www.nist.gov/bioscience)
-- [Buildings and Construction](https://www.nist.gov/buildings-construction)
-- [Chemistry](https://www.nist.gov/chemistry)
-- [Electronics](https://www.nist.gov/electronics)
-- [Energy](https://www.nist.gov/energy)
-- [Environment](https://www.nist.gov/environment)
-- [Fire](https://www.nist.gov/fire)
-- [Forensic Science](https://www.nist.gov/forensic-science)
-- [Health](https://www.nist.gov/health)
-- [Information Technology](https://www.nist.gov/information-technology)
-- [Infrastructure](https://www.nist.gov/infrastructure)
-- [Manufacturing](https://www.nist.gov/manufacturing)
-- [Materials](https://www.nist.gov/materials)
-- [Mathematics and Statistics](https://www.nist.gov/mathematics-statistics)
-- [Metrology](https://www.nist.gov/metrology)
-- [Nanotechnology](https://www.nist.gov/nanotechnology)
-- [Neutron research](https://www.nist.gov/neutron-research)
-- [Performance excellence](https://www.nist.gov/performance-excellence)
-- [Physics](https://www.nist.gov/physics)
-- [Public safety](https://www.nist.gov/public-safety)
-- [Resilience](https://www.nist.gov/resilience)
-- [Standards](https://www.nist.gov/standards)
-- [Transportation](https://www.nist.gov/transportation)
 
----
+## Installation Check
 
-[usnistgov/opensource-repo][gh-osr] is developed and maintained
-by the [opensource-team][gh-ost], principally:
+First, load the R package in an R environment with
 
-- Gretchen Greene, @GRG2
-- Yannick Congo, @faical-yannick-congo
-- Trevor Keller, @tkphd
+```R
+library(mizr)
+```
 
-Please reach out with questions and comments.
+Then, if you wish to run a few plots to check, you can use one of the examples in the `data` directory. The code below loads an example set, processes it, and runs a few plots. To run this example, please change data_dir to be the location of the `data` directory of this repository. Although this example retrieves the directory from an environment variable, a direct path will work.
 
-<!-- References -->
+```R
+data_dir <- Sys.getenv("MIG_ANALYZER_DATA_DIR")
+```
 
-[18f-guide]: https://github.com/18F/open-source-guide/blob/18f-pages/pages/making-readmes-readable.md
-[cornell-meta]: https://data.research.cornell.edu/content/readme
-[gh-cdo]: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
-[gh-mdn]: https://github.github.com/gfm/
-[gh-nst]: https://github.com/usnistgov
-[gh-odi]: https://odiwiki.nist.gov/ODI/GitHub.html
-[gh-osr]: https://github.com/usnistgov/opensource-repo/
-[gh-ost]: https://github.com/orgs/usnistgov/teams/opensource-team
-[gh-rob]: https://odiwiki.nist.gov/pub/ODI/GitHub/GHROB.pdf
-[gh-tpl]: https://github.com/usnistgov/carpentries-development/discussions/3
-[li-bsd]: https://opensource.org/licenses/bsd-license
-[li-gpl]: https://opensource.org/licenses/gpl-license
-[li-mit]: https://opensource.org/licenses/mit-license
-[nist-code]: https://code.nist.gov
-[nist-disclaimer]: https://www.nist.gov/open/license
-[nist-s-1801-02]: https://inet.nist.gov/adlp/directives/review-data-intended-publication
-[nist-open]: https://www.nist.gov/open/license#software
-[wk-rdm]: https://en.wikipedia.org/wiki/README
+Then load the supporting libraries
+
+Then run the code below
+
+```R 
+library(mizr)
+data_dir <- Sys.getenv("MIG_ANALYZER_DATA_DIR")
+old_theme <- mizr_set_theme()
+sdms_fpath <- normalizePath(file.path(data_dir, "raw", "semait_sdms_1.csv"), mustWork = TRUE)
+sdms_df <- read.csv(sdms_fpath, stringsAsFactors = TRUE)
+
+mizr_tile_table_count_plot(sdms_df, c("dataset", "metric"), c("system"))
+mizr_block_plot(sdms_df, c("dataset", "metric"), "system", "score") %>%
+  eh_title("Block Plot of Systems over different Datasets and Metrics")
+```
+
+It takes the sdms, which is a data frame in experimental data format, loads it, the accompanying metadata file, and calls a selection of the plotting methods. This gives a quick check of
+the installation. The next subsection gives a quick view of
+some additional plots. The output of the Installation Check is provided in the Vignette *MIg analyZeR (mizr) README Rendering*.
+
+## Quick Run of Select Plots
+
+This block of code takes the sdms_df, which is a data frame in experimental data format, loads it, and provides a few plots. This gives an overview of some of the plotting functions currently implemented. The output of the Quick Run is provided in the Vignette *MIg analyZeR (mizr) README Rendering*.
+
+This code uses the previously assigned directory `data_dir`.
+
+```R 
+library(ggplot2)
+library(dplyr)
+library(mizr)
+data_dir <- Sys.getenv("MIG_ANALYZER_DATA_DIR")
+old_theme <- mizr_set_theme()
+sdms_fpath <- normalizePath(file.path(data_dir, "raw", "semait_sdms_1.csv"), mustWork = TRUE)
+sdms_df <- read.csv(sdms_fpath, stringsAsFactors = TRUE)
+
+mizr_tile_table_count_plot(sdms_df, c("dataset", "metric"), c("system"))
+
+# As mizr_..._plot() methods return ggplot objects, we can augment them like ggplots.
+mizr_histogram_plot(sdms_df, "score", binwidth = 0.05)
+mizr_histogram_plot(sdms_df, "score", binwidth = 0.05) +
+  coord_cartesian(xlim = c(0, 1), clip = "off")
+
+# We can also pipe them to some of our mizr methods in enhance_plots.R
+mizr_block_plot(sdms_df, c("dataset", "metric"), "system", "score") %>%
+  eh_title("Block Plot of Systems over different \nDatasets and Metrics")
+
+mizr_tile_table_plot(sdms_df, c("dataset", "metric"), "system", "score", use_margins = TRUE)
+
+mizr_box_plot(sdms_df, c("system"), "score")
+mizr_order_plot(sdms_df, c("dataset", "metric", "system"), "score")
+mizr_scatter_doe_plot(sdms_df, "system", "score", doe_plot_style = "enhanced")
+```
+
+
+## mizr Package vignettes
+
+Rendered vignettes can be found in the "Articles" section of the rendered documentation displable on the [MIg analyZeR gitlab repository via gitlab pages](https://pcf.ipages.nist.gov/mig_analyzer). The version rendered is the version on master branch, and the package has its version number. Included is the vignette which provides the SEMAIT code to run the software as well as a documented analysis on that code for an example dataset.
+
+
+Rendered vignettes can be produced with the R command
+
+```
+devtools::build_vignettes()
+```
+
+and vignettes will be in `/mizr/inst/docs` which will have the html files.  
+
+## Additional Design Documentation
+
+The package `mizr` has a custom ggplot theme that is used. Calling `mizr_set_theme` will set the
+mizr theme as the default them in the document for all plots. To use that theme, run
+
+```
+old_theme <- mizr_set_theme()
+```
+
+Otherwise your default ggplot theme will be used to produce the mizr plots.
+
+All of the main plot methods start with `mizr` and can be found in the file `mizr_plots.R`. By 
+design, each `mizr_method` is split into two submethods: one that produces the computed data frame
+and one that produces the plots. This way, if you wish to get the data frame with the numbers
+of any plot, simply run the first submethod that calls the data frame.
+
+* Requirements specification of the input metadata YAML (.yml) file is in [Analyzer Input Metadata Requirements](design_doc/Analyzer_Input_Metadata_Requirements.md)
+
+
+# Tests
+
+There is a test suite each inside test directories inside the folders.
+
+To test, please set the environment variable `MIG_ANALYZER_DATA_DIR` to point to the location of the data in this repository. For testing and some production, this is the `data` directory of your clone of this repository. This environment variable will be loaded by the R test suite to find the test data. To load that environment value in R, add it to your `.Renviron` file, typically found in `~/.Renviron`
+
+To run all of the tests, run the file
+
+```
+./test_R_package.sh
+```
+
+in the root directory. This will run the R tests and coverage metrics. The commands that are being run to do the testing and coverage are below for those that do not wish to run a shell script.
+
+
+## R: Automated Tests
+
+Currently the tests are only a stub. However, to run the R current tests, go into the `./mizr` directory and run in an terminal
+
+```
+Rscript -e 'library(testthat);devtools::test(reporter="progress")'
+```
+
+If one wishes to test it in an R terminal, one can use this
+
+```
+library(testthat)
+devtools::test(reporter="progress")
+```
+
+to test the package, or the command below to test
+
+```
+test_dir("./tests/testthat", reporter="progress")
+```
+
+the directory of tests.
+
+## R: Code Coverage of Tests
+
+To get code coverage, go into the `./mizr` directory and run in an terminal
+
+```
+Rscript -e 'library(covr);package_coverage(combined_types=FALSE)'
+```
+
+
+In R, the commands are
+
+```
+library(covr)
+package_coverage(combined_types=FALSE)
+```
+
+A report with
+
+```
+library(covr)
+report()
+```
+
+gives an interactive report for in-depth coverage and can be saved with
+
+```
+library(covr)
+report(package_coverage(combined_types=FALSE),file="R_coverage_report.html",browse=FALSE)
+```
+
+# R: Code Quality
+
+This package conforms to the `lintr` package, excluding the documented vignettes (because `knitr` produces blocks of commented code, which fail the `lintr`). To run the code cheks, within the `mizr` directory, in an R terminal run
+
+```
+Rscript -e "library(lintr);lintr::lint_package()"
+```
+
+This `lintr` uses the configurations defined in `mizr/.lintr`
+
+This code conforms to the automated code styling package `styler`. To run the styler, run 
+
+
+```
+Rscript -e "library(styler);styler:::style_pkg()"
+```
+
+# R: Package Documentation
+
+Package documentation is partially complete as documentation is in progress. However, there is
+a tutorial vignette available.
+
+R documentation is generated to .Rd files through `roxygen2` with,
+
+```
+devtools::document()
+```
+
+
+
+and is converted to an .html page with
+
+```
+library(pkgdown)
+pkgdown::build_site()
+```
+
+To embed the README.md into the home page of the site, copy the README.md to the mizr directory with
+
+```
+cp README.md mizr/README.md
+```
+
+Since the vignettes require the `mizr` package to be installed, please install the package prior to
+building the vignettes. To build the vignettes, run in R.
+
+```
+devtools::build_vignettes()
+```
+
+.Rd files are in `/mizr/man` and `index.html` is in `/mizr/docs`, and vignettes will be in `/mizr/inst/docs` which will have the html files.
+
+
+# LICENSE
+
+The license is documented in the [LICENSE file](LICENSE.md) and on the [NIST website](https://www.nist.gov/topics/data/public-access-nist-research/copyright-fair-use-and-licensing-statements-srd-data-and).
+
+# Disclaimer
+
+Certain commercial entities, equipment, or materials may be identified in this document in order to describe an experimental
+procedure or concept adequately. Such identification is not intended to imply recommendation or endorsement by the National
+Institute of Standards and Technology, nor is it intended to imply that the entities, materials, or equipment mentioned are
+necessarily the best available for the purpose. All copyrights and trademarks are properties of their respective owners.
+
+
+
+
+
