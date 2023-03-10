@@ -1,0 +1,6 @@
+library(covr)
+covr_res <- package_coverage(line_exclusions = "R/zzz.R")
+report(covr_res,file="R_coverage_report.html",browse=FALSE)
+coverage_perc <- round(percent_coverage(covr_res),digits=0)
+cat(paste0("Total R Test Coverage is ", paste0(coverage_perc,"%")))
+cat("\n")

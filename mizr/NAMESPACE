@@ -1,0 +1,8 @@
+exportPattern("^[[:alpha:]]+")
+import(dplyr)
+import(ggplot2)
+import(grid)
+import(reshape2)
+import(scales)
+import(tibble)
+import(yaml)

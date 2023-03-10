@@ -1,0 +1,393 @@
+---
+title: "Towards a Structured Evaluation Methodlogy for Artificial Intelligence Technology (SEMAIT) Script Example"
+author: "Peter Fontana, Yooyoung Lee, and Jim Filliben"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Towards a Structured Evaluation Methodlogy for Artificial Intelligence Technology (SEMAIT) Script Example}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE, echo=FALSE, warning=FALSE}
+knitr::opts_chunk$set(fig.height = 9, fig.width = 14)
+```
+
+
+# Introduction
+
+In this R Markdown File (Rmd) we provide the complete script to run the code of our Structured Evaluation Methology for Artificial Intelligence Technology (SEMAIT).
+
+We reiterate that we are working **towards** a Structured Evaluation Methology for Artificial Intelligence Technology. Nevertheless, we believe that the code and plots, in this push-button-script format can provide a set of tools to help others explore similarly-formatted datasets and discover additional insights in their analyses.
+
+The paper can be found on (paper coming soon) and should be cited as (citation coming soon).
+
+## Terminology
+As terms can have different definitions in different sources, in this script we wish to use specific terms for specific components.  We use the word *dataset* to describe the input data, task, or problem that the systems are run on. A *row* is a single 4-tuple (system, dataset, metric, score) or a 3-tuple (system, dataset-metric, score). We call a set of these rows a *ML tuple set*. 
+
+
+# Analysis Steps Taken in This Example
+
+In this example, we take the following steps to analyze and extract insight from our ML Tuple set:
+
+  1. Obtaining Required ML Tuple Set. We require as input the ML tuple set to be either a complete set of 4-tuples of (system, dataset, metric, score) values or a complete set of 3-tuples of (system, dataset-metric, score). 
+  2. Specifying Research Questions. Our primary research question is: in this collection of datasets and metrics, what is the ranking of the systems? 
+  3. Producing a Block Plot and Making Initial Observations. We realize that a Block Plot provides insights to many relevant questions and thus start with that plot. 
+  4. Answering the Primary Question. Ranking Systems. We produce three different rankings and use disagreements as indicators of uncertainty.
+  5. Answering Additional Questions. We analyze for additional insights, including insights on metric tradeoffs. For those with different questions, we believe that many of the plots described here and in the previous strategy will be useful.
+\end{enumerate}
+
+# Obtaining Required ML Tuple Set for Our Example Analysis
+
+We provide our own-generated ML tuple set of (system, dataset, metric, score), which we call System, Dataset, Metric, Score Sample 1 (SDMS_1), or SDMS in this paper.
+
+We provide the  in the `data/raw/semait_sdms_1.csv`. We generated this ML tuple set ourselves for the purposes of illustrating different analysis techniques.
+
+This is a (system, dataset, metric, score) ML tuple set that we construct ourselves. We use 3 baseline models that are publicly available R packages: Decision trees from RPart, Linear Logistic Regression from the "glm" package, and polynomial logistic regression from the "glm" package. We use 3 datasets: the titanic data (OpenML, Dataset ID 40945), the adult data set (UCI Machine Learning Repository, Adult Dataset). We use the following 6 metrics: Accuracy (fraction correct), AUC score, Demographic Parity Ratio (of male vs. female gender; not all datasets had additional gender values), Precision, and Recall, and f1 score.
+
+In this script, the Demographic Parity Ratio (dpr) is computed as:
+
+$$dpr = \min\left(\frac{\text{percentage males positive class}}{\text{percentage females positive class}},\frac{\text{percentage females positive class}}{\text{percentage males positive class}}\right)$$. 
+
+As some of the datasets contain additional gender values and some only contain genders of `male` and `female`, for equal comparison we only consider the demographic parity of male vs. female desipite the importance of demograpic parity across all genders.
+
+The scripts to download the other datasets (they are publicly accessible) and to produce SDMS are in the `scripts_data` folder. 
+
+Additional example analyses are provided in the paper.
+
+# Script Setup
+
+Here is where you specify the path to the data directory to load the file.
+
+```{r filepaths}
+# If the environment variable is set, this command can be unchanged.
+# Else, replace with the path to the "data" directory
+data_dir <- Sys.getenv("MIG_ANALYZER_DATA_DIR")
+sdms_fpath <- normalizePath(file.path(data_dir, "raw", "semait_sdms_1.csv"))
+```
+
+```{r libraries, message=FALSE}
+library(knitr)
+library(ggplot2)
+library(stringr)
+library(reshape2)
+library(Hmisc)
+library(plyr)
+library(dplyr)
+library(mizr)
+library(grid)
+library(gridExtra)
+old_theme <- mizr_set_theme(base_size = 18)
+```
+
+
+```{r load_data}
+sdms_df <- read.csv(sdms_fpath, stringsAsFactors = TRUE)
+sdms_df$dataset_metric <- as.factor(paste(as.character(sdms_df$dataset),
+                                          as.character(sdms_df$metric), sep = "_"))
+sdms_df$metric_dataset <- as.factor(paste(as.character(sdms_df$metric),
+                                          as.character(sdms_df$dataset), sep = "_"))
+factor_cols <- c("metric", "dataset", "system")
+response_var <- "score"
+```
+
+# Specifying Research Questions
+
+Following our work, or primary research question is:
+
+* **Primary Research Question.** In this collection of datasets and metrics, what is the ranking of the systems? 
+
+This question is a *comparative objective*, as stated in [Section 5.3.3 of the NIST/SEMATECH e-Handbook of Statistical Methods](https://www.itl.nist.gov/div898/handbook/pri/section3/pri33.htm). The system is the primary factor. There is additionally, one more follow-up comparative research question of interest:
+
+* AQ1 (Additional Question 1). How robust is the ranking of systems across the different datasets and metrics?
+
+There are also sensitivity questions of interest to us, which include:
+
+* AQ2. Are certain datasets easier or harder for systems to solve?
+* AQ3. Are there particular metrics where systems score higher or lower?
+* AQ4. For each system, are there particular datasets or metrics, or dataset-metric pairs where that system performs better than average or worse than average?
+* AQ5. For each system, are there tradeoffs in performance by metrics: does a system outperform a second system on one metric but under-perform that same second system on a different metric?
+
+We recognize that different researchers will have different research questions of interest to them. We hope that analyzing these questions on these datasets
+
+# Producing a Block Plot and Making Initial Observations
+We start by summarizing with this collection of [block plots](https://www.itl.nist.gov/div898/handbook/eda/section3/blockplo.htm) following the  [NIST/SEMATECH e-Handbook of Statistical Methods](https://www.itl.nist.gov/div898/handbook/index.htm). There is one block plot per metric,
+the x-axis (and the block) is the dataset, the y-value is the score and each system is labelled.
+Each system is in a different color. As the system text is also unique, color is a redundant cue. (In order to accommodate different color-blindness, color is often a redundant cue that can be seen with some non-color cue).
+
+```{r ten_step_block, fig.height=16, fig.width=22}
+metric_list <- c("acc", "auc", "dpr", "f1", "precision", "recall")
+
+accuracy_df <- sdms_df[sdms_df$metric == "acc", ]
+accuracy_plot <- mizr_block_plot(accuracy_df, c("dataset"), "system", response_var) +
+  coord_cartesian(ylim = c(0.0, 1.0))
+accuracy_plot <- accuracy_plot +
+  guides(color = "none") + xlab("dataset") +
+  ggtitle("Block Plot of Systems vs. Datasets on \nMetric 'acc'")
+
+auc_df <- sdms_df[sdms_df$metric == "auc", ]
+auc_plot <- mizr_block_plot(auc_df, c("dataset"), "system", response_var) +
+  coord_cartesian(ylim = c(0.0, 1.0))
+auc_plot <- auc_plot +
+  guides(color = "none") + xlab("dataset") +
+  ggtitle("Block Plot of Systems vs. Datasets on \nMetric 'auc'")
+
+
+dpr_df <- sdms_df[sdms_df$metric == "dpr", ]
+dpr_plot <- mizr_block_plot(dpr_df, c("dataset"), "system", response_var) +
+  coord_cartesian(ylim = c(0.0, 1.0))
+dpr_plot <- dpr_plot +
+  guides(color = "none") + xlab("dataset") +
+  ggtitle("Block Plot of Systems vs. Datasets on \nMetric 'dpr'")
+
+f1_df <- sdms_df[sdms_df$metric == "f1", ]
+f1_plot <- mizr_block_plot(f1_df, c("dataset"), "system", response_var) +
+  coord_cartesian(ylim = c(0.0, 1.0))
+f1_plot <- f1_plot +
+  guides(color = "none") + xlab("dataset") +
+  ggtitle("Block Plot of Systems vs. Datasets on \nMetric 'f1'")
+
+precision_df <- sdms_df[sdms_df$metric == "precision", ]
+precision_plot <- mizr_block_plot(precision_df, c("dataset"), "system", response_var) +
+  coord_cartesian(ylim = c(0.0, 1.0))
+precision_plot <- precision_plot +
+  guides(color = "none") + xlab("dataset") +
+  ggtitle("Block Plot of Systems vs. Datasets on \nMetric 'precision'")
+
+recall_df <- sdms_df[sdms_df$metric == "recall", ]
+recall_plot <- mizr_block_plot(recall_df, c("dataset"), "system", response_var) +
+  coord_cartesian(ylim = c(0.0, 1.0))
+recall_plot <- recall_plot +
+  guides(color = "none") + xlab("dataset") +
+  ggtitle("Block Plot of Systems vs. Datasets on \nMetric 'recall'")
+
+
+# Now use a grid or a wrap to place all 7 plots on one page
+grid.arrange(accuracy_plot, auc_plot, dpr_plot, f1_plot,
+  precision_plot, recall_plot,
+  nrow = 2
+)
+```
+
+These block plots provide an overview. From examining the plots, we see 
+
+# Answering the Primary Question
+
+## First Rank Plot New Sign Test Comparison Table
+
+A statistics computed in the block plots is a binomial portion (and p-value) for the number of blocks a system's value is higher than the comparitive value for another system. (See Sections [1.3.3.3](https://www.itl.nist.gov/div898/handbook/eda/section3/blockplo.htm) and [5.5.9.5](https://www.itl.nist.gov/div898/handbook/pri/section5/pri595.htm) of the [NIST/SEMATECH e-Handbook of Statistical Methods](https://www.itl.nist.gov/div898/handbook/index.htm) for details.) As there are $3*6=18$ combinations of systems to compare, we wish to distill all of the binomial comparisons in an easy to parse plot. Therefore, we prototype a new **sign test comparison plot**. This plot is a colored table where each cell is the fraction of times (number of times/total number of comparisons) the row system's score is equal to or better than the system in the column.  The (all) column is the row sum that gives the fraction of times (total number of times/total number of comparisons).
+
+With this plot we can traversing down the rows to get a ranking of systems in this descending order. This ranking is:
+
+plr, dt, lr
+
+This method of comparitive ranking does not require us to normalize the metrics. All it requires us is to know which direction is a better score for each metric.
+
+```{r sign_test_plot}
+block_df <- block_compute_df(sdms_df, c("dataset", "metric"), "system", response_var)
+sign_test_df <- sign_test_compute_df(sdms_df, c("dataset", "metric"), "system", response_var,
+  higher_is_better = TRUE, use_margins = TRUE, alpha = 0.05
+)
+brm_plot <- mizr_sign_test_plot(sdms_df, c("dataset", "metric"), "system", response_var,
+  higher_is_better = TRUE, use_margins = TRUE,
+  include_equal_comparisons = TRUE, alpha = 0.05, p_adj = "bonferroni",
+  tile_text_size = rel(3.6)
+)
+brm_plot
+
+brmn_plot <- mizr_sign_test_plot(sdms_df, c("dataset", "metric"), "system", response_var,
+  higher_is_better = TRUE, use_margins = TRUE,
+  include_equal_comparisons = TRUE, alpha = 0.05, p_adj = "none",
+  tile_text_size = rel(3.6)
+)
+brmn_plot
+```
+
+We also notice something surprising. The matrix is not always symmetric or anti-symmetric. For instance, examine the cells (plr, lr) and (lr, plr). System plr has a score better than or equal to lr 15/18 times, while lr has a better or equal score to plr 4/18 times. This means that they have the same score $(4 + 14 - 18) = 1$ time, plr exceeds lr 14 times, and lr exceeds plr 3 times, and $1 + 14 + 3 = 18$.
+
+We save the rank order with the proportion comparisons in a table as a first rank and get the 
+ranking plr > dt > lr
+
+```{r bc_rank_table, results="asis"}
+bc_df <- sign_test_compute_df(sdms_df, c("dataset", "metric"), "system", response_var,
+  higher_is_better = TRUE, use_margins = TRUE,
+  include_equal_comparisons = TRUE, alpha = 0.05, p_adj = "bonferroni"
+)
+bc_mar_df <- bc_df[bc_df$treatment_2 == "(all)", ]
+bc_mar_df <- bc_mar_df[order(-bc_mar_df$frac_1_better_or_equal_than_2), ]
+kable(bc_mar_df[, c("treatment_1", "frac_1_better_or_equal_than_2")],
+      caption = "Block Comparison Ranking", digits = 4)
+```
+
+
+
+
+## Second Ranking: Main Effects
+
+We can continue the analysis. We first provide an alternative ranking via the main effects of each score
+
+```{r main_eff}
+mizr_main_effects_plot(sdms_df, c("system", "dataset", "metric"), "score")
+mizr_main_effects_hsd_plot(sdms_df, c("system", "dataset", "metric"), "score")
+```
+
+And we now display the ranking of systems in order with their average score. The ranking is
+plt > lr > dt
+
+```{r main_eff_rank, results='asis'}
+main_eff_df <- main_effects_compute_df(sdms_df, c("system", "dataset", "metric"), "score")
+main_mod_df <- main_eff_df[main_eff_df$variable == "system", ]
+main_mod_df <- main_mod_df[order(-main_mod_df$score), ]
+kable(main_mod_df[, c("value", "score")], caption = "Main Effects Ranking", digits = 4)
+```
+
+
+## Third Ranking: Mean System Rank Values
+
+
+```{r make_rank_df}
+system_rank_df <- sdms_df %>%
+  arrange(dataset, metric, score) %>%
+  group_by(dataset, metric) %>%
+  mutate(rank = rank(-score)) %>%
+  as.data.frame()
+
+metric_rank_df <- sdms_df %>%
+  arrange(dataset, system, score) %>%
+  group_by(dataset, system) %>%
+  mutate(rank = rank(-score)) %>%
+  as.data.frame()
+
+dataset_rank_df <- sdms_df %>%
+  arrange(system, metric, score) %>%
+  group_by(system, metric) %>%
+  mutate(rank = rank(-score)) %>%
+  as.data.frame()
+```
+
+
+```{r rank_plot_system, fig.height=16, fig.width=19}
+mizr_tile_table_plot(system_rank_df, c("dataset", "metric"), "system", "rank",
+                     use_margins = TRUE, tile_text_size = rel(3.6))
+
+dataset_list <- c("adult", "hmda", "titanic")
+
+adult_df <- system_rank_df[system_rank_df$dataset == "adult", ]
+adult_plot <- mizr_tile_table_plot(adult_df, "metric", "system", "rank",
+                                   use_margins = TRUE, tile_text_size = rel(3.6))
+adult_plot <- adult_plot + ggtitle("system Rank for each Metric of \nadult Dataset")
+
+hmda_df <- system_rank_df[system_rank_df$dataset == "hmda", ]
+hmda_plot <- mizr_tile_table_plot(hmda_df, "metric", "system", "rank",
+                                  use_margins = TRUE, tile_text_size = rel(3.6))
+hmda_plot <- hmda_plot + ggtitle("system Rank for each Metric of \nhmda Dataset")
+
+titanic_df <- system_rank_df[system_rank_df$dataset == "titanic", ]
+titanic_plot <- mizr_tile_table_plot(titanic_df, "metric", "system", "rank",
+                                     use_margins = TRUE, tile_text_size = rel(3.6))
+titanic_plot <- titanic_plot + ggtitle("system Rank for each Metric of \ntitanic Dataset")
+
+# Now use a grid or a wrap to place all 7 plots on one page
+grid.arrange(adult_plot, hmda_plot, titanic_plot, nrow = 1)
+```
+```{r system_rank_analysis, results='asis'}
+mrank_mar_df <- tile_table_compute_df(system_rank_df, c("dataset", "metric"),
+                                      "system", "rank", use_margins = TRUE)
+mr_df <- mrank_mar_df[mrank_mar_df$metric == "(all)" &
+                        mrank_mar_df$dataset == "(all)" & mrank_mar_df$system != "(all)", ]
+mr_df <- mr_df[order(mr_df$rank), ]
+kable(mr_df[, c("system", "rank")],
+      caption = "Ranking by Mean Rank on Metrics and Datasets", digits = 4)
+```
+
+From the mean ranks, we get the ranking plr > dt > lr
+
+## Putting the Rankings Together
+
+If we take all of the rankings, and treat any disagreements among the three rankings as uncertainties, we get the ranking:
+
+plr > {dt, lr}
+
+As there is uncertainty as to if in this sample system dt or lr has the highest score.
+
+
+This ranking addresses the primary research question as well as the First additional question (AQ1). The specific fractions and the mean values give information to the variation in the rankings.
+
+# Answering Additional Questions
+
+Now we perform additional analysis to answer the additional questions AQ2-AQ5.
+
+First we follow a similar analysis to rank the metrics
+
+```{r rank_plot_metrics, fig.height=16, fig.width=19}
+mizr_tile_table_plot(metric_rank_df, c("dataset", "system"), "metric", "rank",
+                     use_margins = TRUE, tile_text_size = rel(3.6))
+```
+
+```{r rank_metrics}
+sign_test_df <- sign_test_compute_df(sdms_df, c("system", "dataset"), "metric", response_var,
+  higher_is_better = TRUE, use_margins = TRUE, alpha = 0.05
+)
+brm_plot <- mizr_sign_test_plot(sdms_df, c("system", "dataset"), "metric", response_var,
+  higher_is_better = TRUE, use_margins = TRUE,
+  include_equal_comparisons = TRUE, alpha = 0.05, p_adj = "bonferroni",
+  tile_text_size = rel(3.6)
+)
+brm_plot
+```
+
+
+Next we follow a similar analysis to rank the datasets
+
+```{r rank_datasets}
+sign_test_df <- sign_test_compute_df(sdms_df, c("system", "metric"), "dataset", response_var,
+  higher_is_better = TRUE, use_margins = TRUE, alpha = 0.05
+)
+brm_plot <- mizr_sign_test_plot(sdms_df, c("system", "metric"), "dataset", response_var,
+  higher_is_better = TRUE, use_margins = TRUE,
+  include_equal_comparisons = TRUE, alpha = 0.05, p_adj = "bonferroni",
+  tile_text_size = rel(3.6)
+)
+brm_plot
+```
+
+```{r rank_plot_datasets, fig.height=16, fig.width=19}
+mizr_tile_table_plot(dataset_rank_df, c("system", "metric"), "dataset", "rank",
+                     use_margins = TRUE, tile_text_size = rel(3.6))
+```
+
+
+Now we perform Interaction Comparison Plots on the factor system
+
+```{r interactions}
+mizr_interact_compare_plot(sdms_df, c("dataset", "metric"), "system", "score") +
+  scale_shape_manual(values = c(1, 2, 16, 17, 18, 19, 3, 4, 5))
+mizr_interact_compare_plot(sdms_df, c("metric_dataset"), "system", "score") +
+  scale_shape_manual(values = c(1, 2, 16, 17, 18, 19, 3, 4, 5))
+```
+
+Here is the Histogram we plot as a check on the data
+
+```{r histogram}
+# Implement a double histogram
+basic_hist_plot <- ggplot(data = sdms_df) +
+  geom_histogram(aes(x = score, y = ..count..),
+    color = "black", fill = "#DDDDDD",
+    binwidth = 0.1, stat = "bin", boundary = 0, closed = "left", pad = TRUE
+  ) +
+  geom_text(aes(x = score, y = ..count.., label = ..count..),
+    vjust = -0.3, binwidth = 0.1, stat = "bin", boundary = 0, closed = "left"
+  ) +
+  geom_histogram(aes(x = score, y = ..count..),
+    color = "black", fill = "#FFFFFF",
+    binwidth = 0.01, stat = "bin", boundary = 0, closed = "left", pad = TRUE
+  ) +
+  # geom_text(aes(x = score, y = ..count.., label = ..count..),
+  #  vjust = -0.3, binwidth = 0.01, stat="bin", boundary=0, closed="left") +
+  scale_x_continuous(breaks = c(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0)) +
+  scale_y_continuous(expand = expansion(add = c(0, 10))) +
+  ggtitle("Double Histogram of Counts of Score Values")
+
+basic_hist_plot
+```
+

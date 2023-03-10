@@ -1,0 +1,82 @@
+---
+title: "MIg analyZeR (mizr) Plot Library Requirements"
+author: "NIST MIZR Team"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{MIg analyZeR (mizr) Plot Library Requirements}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.width = 7, fig.height = 5)
+```
+
+```{r load_dependencies}
+library(ggplot2)
+library(dplyr)
+library(knitr) # For displaying in html
+library(yaml) # for reading yaml files in R
+library(reshape2)
+```
+
+```{r load_package}
+library(mizr)
+```
+
+# Input Paths
+
+Here are filepaths needed to run this code
+
+Please input paths needed to run this file here.
+
+```{r input_paths}
+# If the environment variable is set, this command can be unchanged.
+# Else, replace with the path to the "data" directory
+data_dir <- Sys.getenv("MIG_ANALYZER_DATA_DIR")
+```
+
+# MIG analyZeR (mizr) Design Plot Library Requirements
+
+This document gives the requirements for the specification of the plot library methods. There are method to create plots and methods to enhance plots
+
+# Plot Creation Methods
+
+This methods produce plot objects. 
+
+Some plots will compute statistics or computations on the data, and such computations will be specified in those plot methods' documentation. However, many plots will not make computations, and if a plot on aggregate or subset (margin) data is desired, the typical approach will be to produce a processed data frame that aggregates or subsets (computes the margin) the data and then call the plot methods with the processed data frame.
+
+## Plot Argument Conventions
+
+In the plot methods, the arguments are named based on the expected types as well as the interpretation of the variable for the plot.
+
+The first part of the name indicates how the plot variable will be interpreted. The cases are:
+
+* `treatment_yyy`: A prefix of `treatment` means that the variable(s) is(are) the treatment variable(s) that is(are) sometimes considered a blocking variable(s) or the variable(s) to separate out.
+* `response_yyy`: A prefix of `response` means that this variable(s) is(are) the response variable(s). Response variables are typically plotted on the y axis, so `response_yyy` is often used instead of `y_col_yyy`
+* `x_col_yyy`: A prefix of `x_col` means that the variable(s) is (are) the variables that are broken across the x-axis.
+
+The second part of the name indicates what type of variables are supported and whether exactly one variable is needed or if a vector of one or more variables is supported. When a vector of variables is supported and only one variable is desired, that variable must be provided in vector format `c(<variable_name>)`
+
+* `yyy_var`: The additional suffix of `var` means that any variable type is supported, including both variables with a finite number of values as well as continuous values.
+* `yyy_num`: The additional suffix of `num` means that only a numeric type (continuously-valued) variable is supported.
+* `yyy_fac`: The additional suffix of `fac` means that each variable will be interpreted as a factor and must have a finite number of values. Variables of type `nominal`, `ordinal`, or `string` will work.
+* `yyy_vec`: The additional suffix of `vec` means that a vector of one or more variables is supported. This means that the plot will take a vector of variables. When a vector of variables is supported and only one variable is desired, that variable must be provided in vector format `c(<variable_name>)` The `vec` suffix is placed after other suffixes, such as `yyy_var_vec` or `yyy_fac_vec`: Any type suffix that follows the `vec` suffix indicates the type of variables that all variables in the vector must be.
+* `yyy_fzzz_aaa_vec`: In some cases where a vector of values is taken, the first variable may have different type requirements than the other variables. In this case, the type of the first variable is preceeded by an `f`. An example is `yyy_fvar_fac_vec`, meaning that the first variable in the vector of variables can be of any type, but the remainder of the variables (if provided) must be factors.
+
+# Plot Enhancement Methods
+
+These methods make post-plot enhancements such as axis label changes and title changes. All of these methods take the desired plot as the first argument and return an enhanced plot object. They support the piping operator `%>%` as in the `ddplyr` (or `magittr`) package, for ease 
+
+# Viewing and Saving Plots
+
+Plot objects will be objects that can be accessed in a variety of ways. However, there will be ways to view the plot as well as to save the plots. If we have a plot object `curr_plot`, the variable name alone on a line will view the plot. Additionally, methods that can help are
+
+
+```{r }
+args(view_plot)
+args(save_plot)
+```
+
+Again, the use of taking the plot object as the first argument allows them to be piped.
