@@ -8,7 +8,7 @@ Included in this software is the  MIg analyZeR (mizr) R software package that pr
 It was initially developed within the Multimodal Information Group (MIG) at the 
 National Institute of Standards and Technology (NIST).
 
-A quickstart is below. Full documentations (docs and vignettes) are available on [semait_mizr Gitlab pages](https://semait.ipages.nist.gov/semait_mizr)
+A quickstart is below. Full documentations (docs and vignettes) are pre-build and the index html page is available in this branch at [mizr/docs/index.html](mizr/docs/index.html)
 
 **For ease of updating, all of the paths and inputs required are at the top of each R file.**
 
