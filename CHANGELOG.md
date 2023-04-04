@@ -1,5 +1,9 @@
 # mizr CHANGELOG
 
+## v2023.03.13
+
+Updated README and documentation for ease of use.
+
 ## v2023.03.10
 
 Migration to new location and new overall name semait_mizr

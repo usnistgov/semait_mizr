@@ -1,7 +1,7 @@
 Package: mizr
 Type: Package
 Title: MIG Analyzer
-Version: 2023.03.10
+Version: 2023.03.13
 Authors@R: person("NIST" ,"MIZR Team", role=c("aut","cre"), email="mizr@nist.gov")
 Description: MIg analyZeR (mizr), General-Purpose Analysis Library for MIG Analysis
 Encoding: UTF-8

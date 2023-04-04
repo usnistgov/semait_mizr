@@ -8,20 +8,21 @@ Included in this software is the  MIg analyZeR (mizr) R software package that pr
 It was initially developed within the Multimodal Information Group (MIG) at the 
 National Institute of Standards and Technology (NIST).
 
-A quickstart is below. Full documentations (docs and vignettes) are pre-build and the index html page is available in this branch at [mizr/docs/index.html](mizr/docs/index.html)
+A quickstart is below. Full documentations (docs and vignettes) are available on [semait_mizr Gitlab pages](https://semait.ipages.nist.gov/semait_mizr)
 
-**For ease of updating, all of the paths and inputs required are at the top of each R file.**
+**For ease of updating, all of the paths and inputs required are at the top of each R or Rmd file.**
 
-This repository contains the package mizr, as well as the template script for our work towards a Structured Evaluation Methodology for Artificial Intelligence Technology (SEMAIT). 
-
-This software is also used for our work on Towards a Structured Evaluation Methodology for Artificial Intelligence Technology (SEMAIT). The [R code to run the SEMAIT analysis on a sample dataset](scripts_semait/semait_analysis_sdms_script_code.R)
+The [R code to run the SEMAIT analysis on a sample dataset](scripts_semait/semait_analysis_sdms_script_code.R)
 is provided in `scripts_semait/semait_analysis_sdms_script_code.R` of this repository. A [documented R Markdown of the same script](mizr/vignettes/semait_analysis_sdms_documented.Rmd) is available as the vignette semait_analysis_sdms_documented.Rmd
 
 Please see our SEMAIT paper for more information (paper coming soon), and please cite our paper with the citation (citation coming soon)
 
 This version of mizr is currently built and tested on version 4.2.2 of R with ggplot 3.4.1 and will work on any OS
 and configuration that supports R 4.2.2 and ggplot 3.4.1. It has been tested both on Mac OS and Linux. As it has
-been implemented over different versions of R and ggplot, some functions may have depreciation warnings.
+been partially implemented on earlier versions of R and ggplot, some functions may have depreciation warnings.
+
+The main mizr plotting methods are named `mizr_YYY_plot()`.
+Every `mizr_YYY_plot()` plot method produces a plot as a ggplot object and **returns that ggplot object**. The benefit of this design decision is that many changes (including theme changes) can be customized by altering or augmenting the returned ggplot object (such as `<plot_object> + theme(...)`) without having to examine the mizr method source. A second design feature is that every ``mizr_YYY_plot()` is designed to call two sub-methods in sequence: A `zzz_compute_df()` method that comuptes the data frame; and a `zzz_produce_plot()` method that takes that computed dataframe and renders the plot. This design feature provides a way to get the raw data frame of any plot's data. More details are in the [MIg analyZeR (mizr) Plot Library Requirements vignette](mizr/vignettes/mizr_plot_library.Rmd).
 
 ## Contact
 
@@ -37,7 +38,7 @@ Contributors to this code repository:
 
 # Quick Start
 
-Here is a quick start to get up and running with the mizr tool. Right now mizr is an R package without a CLI. A CLI is to come shortly
+Here is a quick start to get up and running with the mizr software package.
 
 ## Installing mizr
 
@@ -49,6 +50,17 @@ R CMD INSTALL --no-multiarch --with-keep.source mizr
 
 Another way to install it is via RStudio. In RStudio, make a new project (or open a project) within the package folder mizr. That means that it is the `<repository_directory>/mizr` directory. After making a project, use the menu `Build -> Install and Restart` option. This will install the package `mizr`.
 
+This installs the minimum packages to run mizr. To run the test suite and documentation code, you will need additional packages. To install these packages, run in a shell 
+
+```bash
+Rscript -e 'install.packages(c("covr", "DT", "devtools", "foreign", "htmltools", "knitr", "lintr", "pkgdown", "purrr", "rmarkdown", "roxygen2", "styler", "testthat", "tools"),dependencies=TRUE,repos="http://cran.rstudio.com", quiet=TRUE)'
+```
+
+or in an R console
+
+```R
+install.packages(c("covr", "DT", "devtools", "foreign", "htmltools", "knitr", "lintr", "pkgdown", "purrr", "rmarkdown", "roxygen2", "styler", "testthat", "tools"),dependencies=TRUE,repos="http://cran.rstudio.com", quiet=TRUE)
+```
 
 ## Installation Check
 
@@ -58,7 +70,7 @@ First, load the R package in an R environment with
 library(mizr)
 ```
 
-Then, if you wish to run a few plots to check, you can use one of the examples in the `data` directory. The code below loads an example set, processes it, and runs a few plots. To run this example, please change data_dir to be the location of the `data` directory of this repository. Although this example retrieves the directory from an environment variable, a direct path will work.
+Then, if you wish to run a few plots to check, you can use one of the examples in the `data` directory. The code below loads an example set, processes it, and runs a few plots. To run this example, please change data_dir to be the location of the `data` directory of this repository. In this case the data dir is stored in a shell environment variable `MIG_ANALYZER_DATA_DIR`,  Although this example retrieves the directory from an environment variable, a direct path will work.
 
 ```R
 data_dir <- Sys.getenv("MIG_ANALYZER_DATA_DIR")
@@ -82,13 +94,13 @@ mizr_block_plot(sdms_df, c("dataset", "metric"), "system", "score") %>%
 
 It takes the sdms, which is a data frame in experimental data format, loads it, the accompanying metadata file, and calls a selection of the plotting methods. This gives a quick check of
 the installation. The next subsection gives a quick view of
-some additional plots. The output of the Installation Check is provided in the Vignette *MIg analyZeR (mizr) README Rendering*.
+some additional plots. The output of the Installation Check is provided in the Vignette [MIg analyZeR (mizr) README Rendering](mizr/vignettes/mizr_readme_rendering.Rmd).
 
 ## Quick Run of Select Plots
 
-This block of code takes the sdms_df, which is a data frame in experimental data format, loads it, and provides a few plots. This gives an overview of some of the plotting functions currently implemented. The output of the Quick Run is provided in the Vignette *MIg analyZeR (mizr) README Rendering*.
+This block of code takes the sdms_df, which is a data frame in experimental data format, loads it, and provides a few plots. This gives an overview of some of the plotting functions currently implemented. The output of the Quick Run is provided in the Vignette [MIg analyZeR (mizr) README Rendering](mizr/vignettes/mizr_readme_rendering.Rmd).
 
-This code uses the previously assigned directory `data_dir`.
+This code uses the previously assigned directory `data_dir`. O
 
 ```R 
 library(ggplot2)
@@ -118,22 +130,26 @@ mizr_scatter_doe_plot(sdms_df, "system", "score", doe_plot_style = "enhanced")
 ```
 
 
-## mizr Package vignettes
+## Full RMarkdown Examples (mizr Package vignettes)
 
-Rendered vignettes can be found in the "Articles" section of the rendered documentation displable on the [MIg analyZeR gitlab repository via gitlab pages](https://pcf.ipages.nist.gov/mig_analyzer). The version rendered is the version on master branch, and the package has its version number. Included is the vignette which provides the SEMAIT code to run the software as well as a documented analysis on that code for an example dataset.
+To make fully-worked through examples more accessible with the package documentation, we have placed the R Markdown source scripts in `mizr/vignettes`, calling these examples _vignettes_. The making and placing of these vignettes allows these complete examples to be bundled with the package documentation and can be referred to in the "Articles" menu of the rendered documentation. 
+
+Rendered vignettes can be found in the "Articles" section of the rendered documentation displayable on the [MIg analyZeR gitlab repository via gitlab pages](https://semait.ipages.nist.gov/). The version rendered is the version on master branch, and the package has its version number. Included is the vignette which provides the SEMAIT code to run the software as well as a documented analysis on that code for an example data. 
+
+The [example data](data/raw/semait_sdms_1.csv) is a self-constructed set of tuples where we ran baseline machine learning systems on publicly-available datasets scored on a variety of metrics. The scripts to produce this data are in the `scripts_data` folder for those who wish to have the source code for this data (code is a combination of bash and R scripts).
 
 
-Rendered vignettes can be produced with the R command
+Rendered vignettes can be produced with the R command:
 
 ```
 devtools::build_vignettes()
 ```
 
-and vignettes will be in `/mizr/inst/docs` which will have the html files.  
+and those rendered vignettes (and html files) will be in `/mizr/inst/docs`.  
 
 ## Additional Design Documentation
 
-The package `mizr` has a custom ggplot theme that is used. Calling `mizr_set_theme` will set the
+The package `mizr` has a custom ggplot theme that is used. Calling `mizr_set_theme()` will set the
 mizr theme as the default them in the document for all plots. To use that theme, run
 
 ```
@@ -147,8 +163,6 @@ design, each `mizr_method` is split into two submethods: one that produces the c
 and one that produces the plots. This way, if you wish to get the data frame with the numbers
 of any plot, simply run the first submethod that calls the data frame.
 
-* Requirements specification of the input metadata YAML (.yml) file is in [Analyzer Input Metadata Requirements](design_doc/Analyzer_Input_Metadata_Requirements.md)
-
 
 # Tests
 
@@ -159,7 +173,7 @@ To test, please set the environment variable `MIG_ANALYZER_DATA_DIR` to point to
 To run all of the tests, run the file
 
 ```
-./test_R_package.sh
+./test_R_packages.sh
 ```
 
 in the root directory. This will run the R tests and coverage metrics. The commands that are being run to do the testing and coverage are below for those that do not wish to run a shell script.
@@ -255,11 +269,12 @@ library(pkgdown)
 pkgdown::build_site()
 ```
 
-To embed the README.md into the home page of the site, copy the README.md to the mizr directory with
+To embed the README.md into the home page of the site, copy the README.md to the mizr directory with the command below and then update the site links.
 
 ```
 cp README.md mizr/README.md
 ```
+
 
 Since the vignettes require the `mizr` package to be installed, please install the package prior to
 building the vignettes. To build the vignettes, run in R.
@@ -277,12 +292,7 @@ The license is documented in the [LICENSE file](LICENSE.md) and on the [NIST web
 
 # Disclaimer
 
-Certain commercial entities, equipment, or materials may be identified in this document in order to describe an experimental
-procedure or concept adequately. Such identification is not intended to imply recommendation or endorsement by the National
-Institute of Standards and Technology, nor is it intended to imply that the entities, materials, or equipment mentioned are
-necessarily the best available for the purpose. All copyrights and trademarks are properties of their respective owners.
-
-
+Certain equipment, instruments, software, or materials are identified in this paper in order to specify the experimental procedure adequately.  Such identification is not intended to imply recommendation or endorsement of any product or service by NIST, nor is it intended to imply that the materials or equipment identified are necessarily the best available for the purpose.
 
 
 
