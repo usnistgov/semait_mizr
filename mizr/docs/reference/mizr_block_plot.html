@@ -65,6 +65,7 @@
 <span>  <span class="va">x_var_vec</span>,</span>
 <span>  <span class="va">treatment_var</span>,</span>
 <span>  <span class="va">response_var</span>,</span>
+<span>  value_text_size <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">rel</a></span><span class="op">(</span><span class="fl">1.6</span><span class="op">)</span>,</span>
 <span>  comp_func <span class="op">=</span> <span class="va">mean</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -89,6 +90,11 @@ Multiple factors can be combined to enumerate out the different values.</p></dd>
 <dd><p>the response column to plot on the y axis;</p></dd>
 
 
+<dt>value_text_size</dt>
+<dd><p>the size of the text within the plot. Often specified
+as rel(Y) or a relative text size</p></dd>
+
+
 <dt>comp_func</dt>
 <dd><p>mean by default. The computation function used to aggregate the multiple
 values into a single value.</p></dd>
@@ -109,7 +115,7 @@ values into a single value.</p></dd>
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by NIST MIZR Team.</p>
+  <p></p><p>Developed by Peter C. Fontana.</p>
 </div>
 
 <div class="pkgdown">

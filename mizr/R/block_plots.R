@@ -56,7 +56,8 @@ block_compute_box_df <- function(block_df, x_var_vec, treatment_var, response_va
 }
 
 block_produce_plot <- function(block_df, block_box_df, x_var_vec,
-                               treatment_var, response_var) {
+                               treatment_var, response_var,
+                               value_text_size = rel(1.6)) {
   #' Produces a block plot
   #' @param block_df the data frame after computations
   #' @param block_box_df the data frame for each of the block rectangle coordinates.
@@ -64,6 +65,8 @@ block_produce_plot <- function(block_df, block_box_df, x_var_vec,
   #' Multiple factors can be combined to enumerate out the different values.
   #' @param treatment_var the blocking factor or effect to plot separately as different symbols
   #' @param response_var the response column to plot on the y axis.
+  #' @param value_text_size the size of the text within the plot. Often specified
+  #' as rel(Y) or a relative text size
   #' @return plot_obj a plot object with this plot to display
 
   short_var <- "short_label"
@@ -103,6 +106,7 @@ block_produce_plot <- function(block_df, block_box_df, x_var_vec,
       x = x_var_col, y = response_var,
       label = treatment_var, color = treatment_var
     ),
+    size = value_text_size,
     geom = geom_text_object
   )
 

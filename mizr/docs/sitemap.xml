@@ -178,9 +178,6 @@
     <loc>/reference/mizr_wide_to_long.html</loc>
   </url>
   <url>
-    <loc>/reference/mizr_youden_plot.html</loc>
-  </url>
-  <url>
     <loc>/reference/one_term_level_avg_df.html</loc>
   </url>
   <url>
@@ -206,11 +203,5 @@
   </url>
   <url>
     <loc>/reference/view_plot.html</loc>
-  </url>
-  <url>
-    <loc>/reference/youden_compute_df.html</loc>
-  </url>
-  <url>
-    <loc>/reference/youden_produce_plot.html</loc>
   </url>
 </urlset>

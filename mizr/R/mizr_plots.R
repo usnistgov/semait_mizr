@@ -1,4 +1,5 @@
 mizr_block_plot <- function(df, x_var_vec, treatment_var, response_var,
+                            value_text_size = rel(1.6),
                             comp_func = mean, ...) {
   #' Produces a block plot
   #' @param df the data frame
@@ -6,6 +7,8 @@ mizr_block_plot <- function(df, x_var_vec, treatment_var, response_var,
   #' Multiple factors can be combined to enumerate out the different values.
   #' @param treatment_var the blocking factor or effect to plot separately as different symbols
   #' @param response_var the response column to plot on the y axis;
+  #' @param value_text_size the size of the text within the plot. Often specified
+  #' as rel(Y) or a relative text size
   #' @param comp_func mean by default. The computation function used to aggregate the multiple
   #' values into a single value.
   #' @return mizr_plot a plot object with this plot to display
@@ -17,7 +20,7 @@ mizr_block_plot <- function(df, x_var_vec, treatment_var, response_var,
   )
   mizr_plot <- block_produce_plot(
     mizr_df, block_box_df, x_var_vec, treatment_var,
-    response_var
+    response_var, value_text_size
   )
   return(mizr_plot)
 }

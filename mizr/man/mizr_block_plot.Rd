@@ -9,6 +9,7 @@ mizr_block_plot(
   x_var_vec,
   treatment_var,
   response_var,
+  value_text_size = rel(1.6),
   comp_func = mean,
   ...
 )
@@ -22,6 +23,9 @@ Multiple factors can be combined to enumerate out the different values.}
 \item{treatment_var}{the blocking factor or effect to plot separately as different symbols}
 
 \item{response_var}{the response column to plot on the y axis;}
+
+\item{value_text_size}{the size of the text within the plot. Often specified
+as rel(Y) or a relative text size}
 
 \item{comp_func}{mean by default. The computation function used to aggregate the multiple
 values into a single value.}
