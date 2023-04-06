@@ -8,7 +8,7 @@ Included in this software is the  MIg analyZeR (mizr) R software package that pr
 It was initially developed within the Multimodal Information Group (MIG) at the 
 National Institute of Standards and Technology (NIST).
 
-A quickstart is below. Full documentations (docs and vignettes) are available on [semait_mizr Gitlab pages](https://semait.ipages.nist.gov/semait_mizr)
+A quickstart is below. Full documentations (docs and vignettes) are available pre-build at [mizr/docs/index.html](mizr/docs/index.html)
 
 **For ease of updating, all of the paths and inputs required are at the top of each R or Rmd file.**
 
@@ -134,7 +134,7 @@ mizr_scatter_doe_plot(sdms_df, "system", "score", doe_plot_style = "enhanced")
 
 To make fully-worked through examples more accessible with the package documentation, we have placed the R Markdown source scripts in `mizr/vignettes`, calling these examples _vignettes_. The making and placing of these vignettes allows these complete examples to be bundled with the package documentation and can be referred to in the "Articles" menu of the rendered documentation. 
 
-Rendered vignettes can be found in the "Articles" section of the rendered documentation displayable on the [MIg analyZeR gitlab repository via gitlab pages](https://semait.ipages.nist.gov/). The version rendered is the version on master branch, and the package has its version number. Included is the vignette which provides the SEMAIT code to run the software as well as a documented analysis on that code for an example data. 
+Rendered vignettes can be found in the "Articles" section of the rendered documentation displayable in the repo at [mizr/docs/index.html](mizr/docs/index.html). The version rendered is the version on master branch, and the package has its version number. Included is the vignette which provides the SEMAIT code to run the software as well as a documented analysis on that code for an example data. 
 
 The [example data](data/raw/semait_sdms_1.csv) is a self-constructed set of tuples where we ran baseline machine learning systems on publicly-available datasets scored on a variety of metrics. The scripts to produce this data are in the `scripts_data` folder for those who wish to have the source code for this data (code is a combination of bash and R scripts).
 
