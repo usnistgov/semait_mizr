@@ -14,7 +14,7 @@ mizr_tile_tf_plot(
   high_color = "#0074FF",
   midpoint = 0,
   digits = 2,
-  tile_text_size = rel(1.6),
+  tile_text_size = rel(2),
   remove_NA_factors = FALSE
 )
 }

@@ -78,7 +78,7 @@
                         <h4 data-toc-skip class="author">NIST MIZR
 Team</h4>
             
-            <h4 data-toc-skip class="date">2023-04-05</h4>
+            <h4 data-toc-skip class="date">2023-04-06</h4>
       
       
       <div class="hidden name"><code>mizr_readme_rendering.Rmd</code></div>
@@ -88,8 +88,8 @@ Team</h4>
     
     
 <p>This file renders the code from the examples in the README.md, both
-the <em>Installation Check</em> and the <em>Quick Run of Every
-Plot</em>.</p>
+the <em>Installation Check</em> and the <em>Quick Run of Select
+Plots</em>.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span></code></pre></div>
@@ -108,28 +108,28 @@ Plot</em>.</p>
 </h2>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"MIG_ANALYZER_DATA_DIR"</span><span class="op">)</span></span>
-<span><span class="va">old_theme</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mizr_set_theme.html">mizr_set_theme</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">old_theme</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mizr_set_theme.html">mizr_set_theme</a></span><span class="op">(</span>base_size <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
 <span><span class="va">sdms_fpath</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/normalizePath.html" class="external-link">normalizePath</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">data_dir</span>, <span class="st">"raw"</span>, <span class="st">"semait_sdms_1.csv"</span><span class="op">)</span>, mustWork <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="va">sdms_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="va">sdms_fpath</span>, stringsAsFactors <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/mizr_tile_table_count_plot.html">mizr_tile_table_count_plot</a></span><span class="op">(</span><span class="va">sdms_df</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dataset"</span>, <span class="st">"metric"</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"system"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="mizr_readme_rendering_files/figure-html/install_check_code-1.png" width="672"></p>
+<p><img src="mizr_readme_rendering_files/figure-html/install_check_code-1.png" width="1056"></p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/mizr_block_plot.html">mizr_block_plot</a></span><span class="op">(</span><span class="va">sdms_df</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dataset"</span>, <span class="st">"metric"</span><span class="op">)</span>, <span class="st">"system"</span>, <span class="st">"score"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/eh_title.html">eh_title</a></span><span class="op">(</span><span class="st">"Block Plot of Systems over different Datasets and Metrics"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="mizr_readme_rendering_files/figure-html/install_check_code-2.png" width="672"></p>
+<p><img src="mizr_readme_rendering_files/figure-html/install_check_code-2.png" width="1056"></p>
 </div>
 <div class="section level2">
 <h2 id="readme-rendering-quick-run-of-select-plots">README Rendering: Quick Run of Select Plots<a class="anchor" aria-label="anchor" href="#readme-rendering-quick-run-of-select-plots"></a>
 </h2>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"MIG_ANALYZER_DATA_DIR"</span><span class="op">)</span></span>
-<span><span class="va">old_theme</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mizr_set_theme.html">mizr_set_theme</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">old_theme</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mizr_set_theme.html">mizr_set_theme</a></span><span class="op">(</span>base_size <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
 <span><span class="va">sdms_fpath</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/normalizePath.html" class="external-link">normalizePath</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">data_dir</span>, <span class="st">"raw"</span>, <span class="st">"semait_sdms_1.csv"</span><span class="op">)</span>, mustWork <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="va">sdms_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="va">sdms_fpath</span>, stringsAsFactors <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/mizr_tile_table_count_plot.html">mizr_tile_table_count_plot</a></span><span class="op">(</span><span class="va">sdms_df</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dataset"</span>, <span class="st">"metric"</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"system"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="mizr_readme_rendering_files/figure-html/quick_run-1.png" width="672"></p>
+<p><img src="mizr_readme_rendering_files/figure-html/quick_run-1.png" width="1056"></p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># As mizr_..._plot() methods return ggplot objects, we can augment them like ggplots.</span></span>
 <span><span class="fu"><a href="../reference/mizr_histogram_plot.html">mizr_histogram_plot</a></span><span class="op">(</span><span class="va">sdms_df</span>, <span class="st">"score"</span>, binwidth <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span></span></code></pre></div>
@@ -137,27 +137,29 @@ Plot</em>.</p>
 <span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Please use `after_stat(count)` instead.</span></span>
 <span><span class="co">## <span style="color: #00BBBB;">ℹ</span> The deprecated feature was likely used in the <span style="color: #0000BB;">mizr</span> package.</span></span>
 <span><span class="co">##   Please report the issue to the authors.</span></span></code></pre>
-<p><img src="mizr_readme_rendering_files/figure-html/quick_run-2.png" width="672"></p>
+<p><img src="mizr_readme_rendering_files/figure-html/quick_run-2.png" width="1056"></p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/mizr_histogram_plot.html">mizr_histogram_plot</a></span><span class="op">(</span><span class="va">sdms_df</span>, <span class="st">"score"</span>, binwidth <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_cartesian.html" class="external-link">coord_cartesian</a></span><span class="op">(</span>xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>, clip <span class="op">=</span> <span class="st">"off"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Coordinate system already present. Adding new coordinate system, which will</span></span>
 <span><span class="co">## replace the existing one.</span></span></code></pre>
-<p><img src="mizr_readme_rendering_files/figure-html/quick_run-3.png" width="672"></p>
+<p><img src="mizr_readme_rendering_files/figure-html/quick_run-3.png" width="1056"></p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># We can also pipe them to some of our mizr methods in enhance_plots.R</span></span>
-<span><span class="fu"><a href="../reference/mizr_block_plot.html">mizr_block_plot</a></span><span class="op">(</span><span class="va">sdms_df</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dataset"</span>, <span class="st">"metric"</span><span class="op">)</span>, <span class="st">"system"</span>, <span class="st">"score"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span><span class="fu"><a href="../reference/mizr_block_plot.html">mizr_block_plot</a></span><span class="op">(</span><span class="va">sdms_df</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dataset"</span>, <span class="st">"metric"</span><span class="op">)</span>, <span class="st">"system"</span>, <span class="st">"score"</span>,</span>
+<span>                value_text_size <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">rel</a></span><span class="op">(</span><span class="fl">3.2</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/eh_title.html">eh_title</a></span><span class="op">(</span><span class="st">"Block Plot of Systems over different \nDatasets and Metrics"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="mizr_readme_rendering_files/figure-html/quick_run-4.png" width="672"></p>
+<p><img src="mizr_readme_rendering_files/figure-html/quick_run-4.png" width="1056"></p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/mizr_tile_table_plot.html">mizr_tile_table_plot</a></span><span class="op">(</span><span class="va">sdms_df</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dataset"</span>, <span class="st">"metric"</span><span class="op">)</span>, <span class="st">"system"</span>, <span class="st">"score"</span>, use_margins <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="mizr_readme_rendering_files/figure-html/quick_run-5.png" width="672"></p>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/mizr_tile_table_plot.html">mizr_tile_table_plot</a></span><span class="op">(</span><span class="va">sdms_df</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dataset"</span>, <span class="st">"metric"</span><span class="op">)</span>, <span class="st">"system"</span>, <span class="st">"score"</span>, use_margins <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>                     tile_text_size <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">rel</a></span><span class="op">(</span><span class="fl">3.2</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="mizr_readme_rendering_files/figure-html/quick_run-5.png" width="1056"></p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/mizr_box_plot.html">mizr_box_plot</a></span><span class="op">(</span><span class="va">sdms_df</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"system"</span><span class="op">)</span>, <span class="st">"score"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="mizr_readme_rendering_files/figure-html/quick_run-6.png" width="672"></p>
+<p><img src="mizr_readme_rendering_files/figure-html/quick_run-6.png" width="1056"></p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/mizr_order_plot.html">mizr_order_plot</a></span><span class="op">(</span><span class="va">sdms_df</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dataset"</span>, <span class="st">"metric"</span>, <span class="st">"system"</span><span class="op">)</span>, <span class="st">"score"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="mizr_readme_rendering_files/figure-html/quick_run-7.png" width="672"></p>
+<p><img src="mizr_readme_rendering_files/figure-html/quick_run-7.png" width="1056"></p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/mizr_scatter_doe_plot.html">mizr_scatter_doe_plot</a></span><span class="op">(</span><span class="va">sdms_df</span>, <span class="st">"system"</span>, <span class="st">"score"</span>, doe_plot_style <span class="op">=</span> <span class="st">"enhanced"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Warning: The `&lt;scale&gt;` argument of `guides()` cannot be `FALSE`. Use "none" instead as</span></span>
@@ -169,7 +171,7 @@ Plot</em>.</p>
 <span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Please use "none" instead.</span></span>
 <span><span class="co">## <span style="color: #00BBBB;">ℹ</span> The deprecated feature was likely used in the <span style="color: #0000BB;">mizr</span> package.</span></span>
 <span><span class="co">##   Please report the issue to the authors.</span></span></code></pre>
-<p><img src="mizr_readme_rendering_files/figure-html/quick_run-8.png" width="672"></p>
+<p><img src="mizr_readme_rendering_files/figure-html/quick_run-8.png" width="1056"></p>
 </div>
   </div>
 

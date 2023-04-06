@@ -57,7 +57,8 @@ block_compute_box_df <- function(block_df, x_var_vec, treatment_var, response_va
 
 block_produce_plot <- function(block_df, block_box_df, x_var_vec,
                                treatment_var, response_var,
-                               value_text_size = rel(1.6)) {
+                               value_text_size = rel(2.0)) {
+
   #' Produces a block plot
   #' @param block_df the data frame after computations
   #' @param block_box_df the data frame for each of the block rectangle coordinates.
@@ -315,7 +316,7 @@ sign_test_produce_plot <- function(sign_test_df, x_var_vec, treatment_var, respo
                                    low_color = "#FF0000",
                                    mid_color = "#FFFFFF",
                                    high_color = "#0074FF",
-                                   tile_text_size = rel(1.6)) {
+                                   tile_text_size = rel(2.0)) {
   #' Produces a sign test rank plot
   # We don't want the 0 numbers to appear since they are blank
 

@@ -1,5 +1,5 @@
 mizr_block_plot <- function(df, x_var_vec, treatment_var, response_var,
-                            value_text_size = rel(1.6),
+                            value_text_size = rel(2.0),
                             comp_func = mean, ...) {
   #' Produces a block plot
   #' @param df the data frame
@@ -32,7 +32,7 @@ mizr_sign_test_plot <- function(df, x_var_vec, treatment_var, response_var,
                                 low_color = "#FF0000",
                                 mid_color = "#FFFFFF",
                                 high_color = "#0074FF",
-                                tile_text_size = rel(1.6),
+                                tile_text_size = rel(2.0),
                                 comp_func = mean, ...) {
   #' Produces a block rank plot
   #' @param df the data frame
@@ -49,7 +49,7 @@ mizr_sign_test_plot <- function(df, x_var_vec, treatment_var, response_var,
   #' @param low_color the color for the lowest value.
   #' @param mid_color the color for the midpoint value.
   #' @param high_color the color for the highest value.
-  #' @param text_tile_size the size of the text within the plot. Often specified
+  #' @param tile_text_size the size of the text within the plot. Often specified
   #' as rel(Y) or a relative text size
   #' @param comp_func the computation function used to aggregate multiple values
   #' into a single value. Defaults to the arithmetic mean.
@@ -498,7 +498,7 @@ mizr_tile_table_plot <- function(df, x_fac_vec, y_fac_vec, response_var,
                                  mid_color = "#FFFFFF",
                                  high_color = "#0074FF",
                                  midpoint = 0, digits = 2,
-                                 use_margins = FALSE, tile_text_size = rel(1.6)) {
+                                 use_margins = FALSE, tile_text_size = rel(2.0)) {
   #' Produce a Colored Table of all factors
   #' @param df the data frame
   #' @param x_fac_vec the vector of factors to go on the x-axis.
@@ -567,7 +567,7 @@ mizr_tile_tf_count_plot <- function(df, fac_vec, response_name = "count",
                                     mid_color = "#EEEEEE",
                                     high_color = "#0074FF", midpoint = 1,
                                     digits = 2,
-                                    tile_text_size = rel(1.6),
+                                    tile_text_size = rel(2.0),
                                     remove_NA_factors = FALSE) {
   #' Produce a Colored Table of all counts of all two-factor combinations
   #' @param df the data frame
@@ -603,7 +603,7 @@ mizr_tile_tf_plot <- function(df, fac_vec, response_var,
                               high_color = "#0074FF",
                               midpoint = 0,
                               digits = 2,
-                              tile_text_size = rel(1.6),
+                              tile_text_size = rel(2.0),
                               remove_NA_factors = FALSE) {
   #' Produce a title table of all two-factor combinations. Used to provide
   #' information on two-term interactions

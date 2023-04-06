@@ -1,5 +1,5 @@
 ## ----setup, include=FALSE, echo=FALSE, warning=FALSE--------------------------
-knitr::opts_chunk$set(fig.height = 9, fig.width = 14)
+knitr::opts_chunk$set(fig.height = 5, fig.width = 11)
 
 ## ----filepaths----------------------------------------------------------------
 # If the environment variable is set, this command can be unchanged.
@@ -18,7 +18,7 @@ library(dplyr)
 library(mizr)
 library(grid)
 library(gridExtra)
-old_theme <- mizr_set_theme(base_size = 18)
+old_theme <- mizr_set_theme(base_size = 12)
 
 ## ----load_data----------------------------------------------------------------
 sdms_df <- read.csv(sdms_fpath, stringsAsFactors = TRUE)
@@ -29,18 +29,20 @@ sdms_df$metric_dataset <- as.factor(paste(as.character(sdms_df$metric),
 factor_cols <- c("metric", "dataset", "system")
 response_var <- "score"
 
-## ----ten_step_block, fig.height=16, fig.width=22------------------------------
+## ----ten_step_block, fig.height=15, fig.width=11------------------------------
 metric_list <- c("acc", "auc", "dpr", "f1", "precision", "recall")
-
+block_text_size <- rel(3.6)
 accuracy_df <- sdms_df[sdms_df$metric == "acc", ]
-accuracy_plot <- mizr_block_plot(accuracy_df, c("dataset"), "system", response_var) +
+accuracy_plot <- mizr_block_plot(accuracy_df, c("dataset"), "system", response_var,
+                                 value_text_size = block_text_size) +
   coord_cartesian(ylim = c(0.0, 1.0))
 accuracy_plot <- accuracy_plot +
   guides(color = "none") + xlab("dataset") +
   ggtitle("Block Plot of Systems vs. Datasets on \nMetric 'acc'")
 
 auc_df <- sdms_df[sdms_df$metric == "auc", ]
-auc_plot <- mizr_block_plot(auc_df, c("dataset"), "system", response_var) +
+auc_plot <- mizr_block_plot(auc_df, c("dataset"), "system", response_var,
+                            value_text_size = block_text_size) +
   coord_cartesian(ylim = c(0.0, 1.0))
 auc_plot <- auc_plot +
   guides(color = "none") + xlab("dataset") +
@@ -48,28 +50,32 @@ auc_plot <- auc_plot +
 
 
 dpr_df <- sdms_df[sdms_df$metric == "dpr", ]
-dpr_plot <- mizr_block_plot(dpr_df, c("dataset"), "system", response_var) +
+dpr_plot <- mizr_block_plot(dpr_df, c("dataset"), "system", response_var,
+                            value_text_size = block_text_size) +
   coord_cartesian(ylim = c(0.0, 1.0))
 dpr_plot <- dpr_plot +
   guides(color = "none") + xlab("dataset") +
   ggtitle("Block Plot of Systems vs. Datasets on \nMetric 'dpr'")
 
 f1_df <- sdms_df[sdms_df$metric == "f1", ]
-f1_plot <- mizr_block_plot(f1_df, c("dataset"), "system", response_var) +
+f1_plot <- mizr_block_plot(f1_df, c("dataset"), "system", response_var,
+                           value_text_size = block_text_size) +
   coord_cartesian(ylim = c(0.0, 1.0))
 f1_plot <- f1_plot +
   guides(color = "none") + xlab("dataset") +
   ggtitle("Block Plot of Systems vs. Datasets on \nMetric 'f1'")
 
 precision_df <- sdms_df[sdms_df$metric == "precision", ]
-precision_plot <- mizr_block_plot(precision_df, c("dataset"), "system", response_var) +
+precision_plot <- mizr_block_plot(precision_df, c("dataset"), "system", response_var,
+                                  value_text_size = block_text_size) +
   coord_cartesian(ylim = c(0.0, 1.0))
 precision_plot <- precision_plot +
   guides(color = "none") + xlab("dataset") +
   ggtitle("Block Plot of Systems vs. Datasets on \nMetric 'precision'")
 
 recall_df <- sdms_df[sdms_df$metric == "recall", ]
-recall_plot <- mizr_block_plot(recall_df, c("dataset"), "system", response_var) +
+recall_plot <- mizr_block_plot(recall_df, c("dataset"), "system", response_var,
+                               value_text_size = block_text_size) +
   coord_cartesian(ylim = c(0.0, 1.0))
 recall_plot <- recall_plot +
   guides(color = "none") + xlab("dataset") +
@@ -79,7 +85,7 @@ recall_plot <- recall_plot +
 # Now use a grid or a wrap to place all 7 plots on one page
 grid.arrange(accuracy_plot, auc_plot, dpr_plot, f1_plot,
   precision_plot, recall_plot,
-  nrow = 2
+  nrow = 3
 )
 
 ## ----sign_test_plot-----------------------------------------------------------
@@ -140,10 +146,11 @@ dataset_rank_df <- sdms_df %>%
   mutate(rank = rank(-score)) %>%
   as.data.frame()
 
-## ----rank_plot_system, fig.height=16, fig.width=19----------------------------
+## ----rank_plot_system, fig.height=9, fig.width=11-----------------------------
 mizr_tile_table_plot(system_rank_df, c("dataset", "metric"), "system", "rank",
                      use_margins = TRUE, tile_text_size = rel(3.6))
 
+## ----rank_plot_system_set, fig.height=9, fig.width=16-------------------------
 dataset_list <- c("adult", "hmda", "titanic")
 
 adult_df <- system_rank_df[system_rank_df$dataset == "adult", ]
@@ -173,7 +180,7 @@ mr_df <- mr_df[order(mr_df$rank), ]
 kable(mr_df[, c("system", "rank")],
       caption = "Ranking by Mean Rank on Metrics and Datasets", digits = 4)
 
-## ----rank_plot_metrics, fig.height=16, fig.width=19---------------------------
+## ----rank_plot_metrics, fig.height=9, fig.width=11----------------------------
 mizr_tile_table_plot(metric_rank_df, c("dataset", "system"), "metric", "rank",
                      use_margins = TRUE, tile_text_size = rel(3.6))
 
@@ -199,7 +206,7 @@ brm_plot <- mizr_sign_test_plot(sdms_df, c("system", "metric"), "dataset", respo
 )
 brm_plot
 
-## ----rank_plot_datasets, fig.height=16, fig.width=19--------------------------
+## ----rank_plot_datasets, fig.height=9, fig.width=11---------------------------
 mizr_tile_table_plot(dataset_rank_df, c("system", "metric"), "dataset", "rank",
                      use_margins = TRUE, tile_text_size = rel(3.6))
 

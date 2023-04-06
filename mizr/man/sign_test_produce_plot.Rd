@@ -16,7 +16,7 @@ sign_test_produce_plot(
   low_color = "#FF0000",
   mid_color = "#FFFFFF",
   high_color = "#0074FF",
-  tile_text_size = rel(1.6)
+  tile_text_size = rel(2)
 )
 }
 \description{

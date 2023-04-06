@@ -83,7 +83,7 @@ Then run the code below
 ```R 
 library(mizr)
 data_dir <- Sys.getenv("MIG_ANALYZER_DATA_DIR")
-old_theme <- mizr_set_theme()
+old_theme <- mizr_set_theme(base_size = 12)
 sdms_fpath <- normalizePath(file.path(data_dir, "raw", "semait_sdms_1.csv"), mustWork = TRUE)
 sdms_df <- read.csv(sdms_fpath, stringsAsFactors = TRUE)
 
@@ -107,7 +107,7 @@ library(ggplot2)
 library(dplyr)
 library(mizr)
 data_dir <- Sys.getenv("MIG_ANALYZER_DATA_DIR")
-old_theme <- mizr_set_theme()
+old_theme <- mizr_set_theme(base_size = 12)
 sdms_fpath <- normalizePath(file.path(data_dir, "raw", "semait_sdms_1.csv"), mustWork = TRUE)
 sdms_df <- read.csv(sdms_fpath, stringsAsFactors = TRUE)
 
@@ -119,10 +119,11 @@ mizr_histogram_plot(sdms_df, "score", binwidth = 0.05) +
   coord_cartesian(xlim = c(0, 1), clip = "off")
 
 # We can also pipe them to some of our mizr methods in enhance_plots.R
-mizr_block_plot(sdms_df, c("dataset", "metric"), "system", "score") %>%
+mizr_block_plot(sdms_df, c("dataset", "metric"), "system", "score",
+value_text_size = rel(3.2)) %>%
   eh_title("Block Plot of Systems over different \nDatasets and Metrics")
 
-mizr_tile_table_plot(sdms_df, c("dataset", "metric"), "system", "score", use_margins = TRUE)
+mizr_tile_table_plot(sdms_df, c("dataset", "metric"), "system", "score", use_margins = TRUE, tile_text_size = rel(3.2))
 
 mizr_box_plot(sdms_df, c("system"), "score")
 mizr_order_plot(sdms_df, c("dataset", "metric", "system"), "score")
@@ -149,11 +150,11 @@ and those rendered vignettes (and html files) will be in `/mizr/inst/docs`.
 
 ## Additional Design Documentation
 
-The package `mizr` has a custom ggplot theme that is used. Calling `mizr_set_theme()` will set the
-mizr theme as the default them in the document for all plots. To use that theme, run
+The package `mizr` has a custom ggplot theme that is used. Calling `mizr_set_theme()` or `mizr_set_theme(base_size=Y)` will set the
+mizr theme as the default them in the document for all plots with the specified base size. To use that theme with a 12pt base size, run
 
 ```
-old_theme <- mizr_set_theme()
+old_theme <- mizr_set_theme(base_size = 12)
 ```
 
 Otherwise your default ggplot theme will be used to produce the mizr plots.

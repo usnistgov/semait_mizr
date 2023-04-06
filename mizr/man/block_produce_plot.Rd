@@ -10,7 +10,7 @@ block_produce_plot(
   x_var_vec,
   treatment_var,
   response_var,
-  value_text_size = rel(1.6)
+  value_text_size = rel(2)
 )
 }
 \arguments{

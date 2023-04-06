@@ -246,7 +246,7 @@ tile_table_produce_plot <- function(mizr_df, x_fac_vec, y_fac_vec, response_var,
                                     mid_color = "#FFFFFF",
                                     high_color = "#0074FF",
                                     midpoint = 0,
-                                    use_margins = FALSE, tile_text_size = rel(1.6)) {
+                                    use_margins = FALSE, tile_text_size = rel(2.0)) {
   facet_row_sym <- syms(y_fac_vec)
   facet_col_sym <- syms(x_fac_vec)
 
@@ -346,7 +346,7 @@ tile_table_count_produce_plot <- function(mizr_df, x_fac_vec, y_fac_vec, respons
                                           mid_color = "#EEEEEE",
                                           high_color = "#0074FF",
                                           midpoint = 1,
-                                          use_margins = FALSE, tile_text_size = rel(1.6)) {
+                                          use_margins = FALSE, tile_text_size = rel(2.0)) {
   # We don't want the 0 numbers to appear since they are blank
   mizr_df$text_response <- mizr_df[[response_name]]
   if (nrow(mizr_df[mizr_df$text_response == 0, ]) > 0) {
@@ -453,7 +453,7 @@ tile_tf_count_produce_plot <- function(mizr_df, fac_vec, response_name = "count"
                                        mid_color = "#EEEEEE",
                                        high_color = "#0074FF",
                                        midpoint = 1,
-                                       tile_text_size = rel(1.6)) {
+                                       tile_text_size = rel(2.0)) {
   # We don't want the 0 numbers to appear since they are blank
   mizr_df$text_response <- mizr_df[[response_name]]
   if (nrow(mizr_df[mizr_df$text_response == 0, ]) > 0) {
@@ -507,7 +507,7 @@ tile_tf_produce_plot <- function(mizr_df, fac_vec, response_var,
                                  mid_color = "#FFFFFF",
                                  high_color = "#0074FF",
                                  midpoint = 0,
-                                 tile_text_size = rel(1.6)) {
+                                 tile_text_size = rel(2.0)) {
   x_fac_col <- "x_fac"
   y_fac_col <- "y_fac"
   x_scale_col <- "x_scale"

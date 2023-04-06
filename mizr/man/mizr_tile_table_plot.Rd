@@ -15,7 +15,7 @@ mizr_tile_table_plot(
   midpoint = 0,
   digits = 2,
   use_margins = FALSE,
-  tile_text_size = rel(1.6)
+  tile_text_size = rel(2)
 )
 }
 \arguments{

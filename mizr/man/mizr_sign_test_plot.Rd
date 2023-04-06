@@ -17,7 +17,7 @@ mizr_sign_test_plot(
   low_color = "#FF0000",
   mid_color = "#FFFFFF",
   high_color = "#0074FF",
-  tile_text_size = rel(1.6),
+  tile_text_size = rel(2),
   comp_func = mean,
   ...
 )
@@ -48,11 +48,11 @@ inflation while "bonferonni" uses a bonferonni correction to the Type I error}
 
 \item{high_color}{the color for the highest value.}
 
+\item{tile_text_size}{the size of the text within the plot. Often specified
+as rel(Y) or a relative text size}
+
 \item{comp_func}{the computation function used to aggregate multiple values
 into a single value. Defaults to the arithmetic mean.}
-
-\item{text_tile_size}{the size of the text within the plot. Often specified
-as rel(Y) or a relative text size}
 }
 \value{
 mizr_plot a plot object with this plot to display

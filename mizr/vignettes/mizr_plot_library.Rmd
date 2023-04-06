@@ -10,7 +10,7 @@ vignette: >
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, fig.width = 7, fig.height = 5)
+knitr::opts_chunk$set(echo = TRUE, fig.height = 5, fig.width = 11)
 ```
 
 ```{r load_dependencies}
@@ -64,6 +64,8 @@ The second part of the name indicates what type of variables are supported and w
 * `yyy_fac`: The additional suffix of `fac` means that each variable will be interpreted as a factor and must have a finite number of values. Variables of type `nominal`, `ordinal`, or `string` will work.
 * `yyy_vec`: The additional suffix of `vec` means that a vector of one or more variables is supported. This means that the plot will take a vector of variables. When a vector of variables is supported and only one variable is desired, that variable must be provided in vector format `c(<variable_name>)` The `vec` suffix is placed after other suffixes, such as `yyy_var_vec` or `yyy_fac_vec`: Any type suffix that follows the `vec` suffix indicates the type of variables that all variables in the vector must be.
 * `yyy_fzzz_aaa_vec`: In some cases where a vector of values is taken, the first variable may have different type requirements than the other variables. In this case, the type of the first variable is preceeded by an `f`. An example is `yyy_fvar_fac_vec`, meaning that the first variable in the vector of variables can be of any type, but the remainder of the variables (if provided) must be factors.
+
+Because the returned plots are ggplot objects, changing the theme can change many of the values. However, the value text size or text size within tiles can be changed in select plots with the `value_text_size` parameter or the `tile_text_size` (for tile tables)
 
 # Plot Enhancement Methods
 

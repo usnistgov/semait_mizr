@@ -1,5 +1,5 @@
 ## ----setup, include=FALSE-----------------------------------------------------
-knitr::opts_chunk$set(echo = TRUE, fig.width = 7, fig.height = 5)
+knitr::opts_chunk$set(echo = TRUE, fig.height = 5, fig.width = 11)
 
 ## ----load_dependencies--------------------------------------------------------
 library(ggplot2)

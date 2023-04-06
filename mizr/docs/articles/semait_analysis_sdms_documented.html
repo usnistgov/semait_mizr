@@ -79,7 +79,7 @@ Artificial Intelligence Technology (SEMAIT) Script Example</h1>
                         <h4 data-toc-skip class="author">Peter Fontana,
 Yooyoung Lee, and Jim Filliben</h4>
             
-            <h4 data-toc-skip class="date">2023-04-05</h4>
+            <h4 data-toc-skip class="date">2023-04-06</h4>
       
       
       <div class="hidden name"><code>semait_analysis_sdms_documented.Rmd</code></div>
@@ -159,10 +159,9 @@ gender; not all datasets had additional gender values), Precision, and
 Recall, and f1 score.</p>
 <p>In this script, the Demographic Parity Ratio (dpr) is computed
 as:</p>
-<p><span class="math display">\[dpr = \min\left(\frac{\text{percentage
-males positive class}}{\text{percentage females positive
-class}},\frac{\text{percentage females positive class}}{\text{percentage
-males positive class}}\right)\]</span>.</p>
+<p><span class="math display">\[dpr = \min\left(\frac{\text{% males
+positive class}}{\text{% females positive class}},\frac{\text{% females
+positive class}}{\text{% males positive class}}\right)\]</span></p>
 <p>As some of the datasets contain additional gender values and some
 only contain genders of <code>male</code> and <code>female</code>, for
 equal comparison we only consider the demographic parity of male
@@ -194,7 +193,7 @@ file.</p>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">mizr</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">grid</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">gridExtra</span><span class="op">)</span></span>
-<span><span class="va">old_theme</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mizr_set_theme.html">mizr_set_theme</a></span><span class="op">(</span>base_size <span class="op">=</span> <span class="fl">18</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">old_theme</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mizr_set_theme.html">mizr_set_theme</a></span><span class="op">(</span>base_size <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sdms_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="va">sdms_fpath</span>, stringsAsFactors <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="va">sdms_df</span><span class="op">$</span><span class="va">dataset_metric</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">sdms_df</span><span class="op">$</span><span class="va">dataset</span><span class="op">)</span>,</span>
@@ -252,16 +251,18 @@ to accommodate different color-blindness, color is often a redundant cue
 that can be seen with some non-color cue).</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">metric_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"acc"</span>, <span class="st">"auc"</span>, <span class="st">"dpr"</span>, <span class="st">"f1"</span>, <span class="st">"precision"</span>, <span class="st">"recall"</span><span class="op">)</span></span>
-<span></span>
+<span><span class="va">block_text_size</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">rel</a></span><span class="op">(</span><span class="fl">3.6</span><span class="op">)</span></span>
 <span><span class="va">accuracy_df</span> <span class="op">&lt;-</span> <span class="va">sdms_df</span><span class="op">[</span><span class="va">sdms_df</span><span class="op">$</span><span class="va">metric</span> <span class="op">==</span> <span class="st">"acc"</span>, <span class="op">]</span></span>
-<span><span class="va">accuracy_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mizr_block_plot.html">mizr_block_plot</a></span><span class="op">(</span><span class="va">accuracy_df</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dataset"</span><span class="op">)</span>, <span class="st">"system"</span>, <span class="va">response_var</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="va">accuracy_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mizr_block_plot.html">mizr_block_plot</a></span><span class="op">(</span><span class="va">accuracy_df</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dataset"</span><span class="op">)</span>, <span class="st">"system"</span>, <span class="va">response_var</span>,</span>
+<span>                                 value_text_size <span class="op">=</span> <span class="va">block_text_size</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_cartesian.html" class="external-link">coord_cartesian</a></span><span class="op">(</span>ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.0</span>, <span class="fl">1.0</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">accuracy_plot</span> <span class="op">&lt;-</span> <span class="va">accuracy_plot</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">xlab</a></span><span class="op">(</span><span class="st">"dataset"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Block Plot of Systems vs. Datasets on \nMetric 'acc'"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">auc_df</span> <span class="op">&lt;-</span> <span class="va">sdms_df</span><span class="op">[</span><span class="va">sdms_df</span><span class="op">$</span><span class="va">metric</span> <span class="op">==</span> <span class="st">"auc"</span>, <span class="op">]</span></span>
-<span><span class="va">auc_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mizr_block_plot.html">mizr_block_plot</a></span><span class="op">(</span><span class="va">auc_df</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dataset"</span><span class="op">)</span>, <span class="st">"system"</span>, <span class="va">response_var</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="va">auc_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mizr_block_plot.html">mizr_block_plot</a></span><span class="op">(</span><span class="va">auc_df</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dataset"</span><span class="op">)</span>, <span class="st">"system"</span>, <span class="va">response_var</span>,</span>
+<span>                            value_text_size <span class="op">=</span> <span class="va">block_text_size</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_cartesian.html" class="external-link">coord_cartesian</a></span><span class="op">(</span>ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.0</span>, <span class="fl">1.0</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">auc_plot</span> <span class="op">&lt;-</span> <span class="va">auc_plot</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">xlab</a></span><span class="op">(</span><span class="st">"dataset"</span><span class="op">)</span> <span class="op">+</span></span>
@@ -269,28 +270,32 @@ that can be seen with some non-color cue).</p>
 <span></span>
 <span></span>
 <span><span class="va">dpr_df</span> <span class="op">&lt;-</span> <span class="va">sdms_df</span><span class="op">[</span><span class="va">sdms_df</span><span class="op">$</span><span class="va">metric</span> <span class="op">==</span> <span class="st">"dpr"</span>, <span class="op">]</span></span>
-<span><span class="va">dpr_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mizr_block_plot.html">mizr_block_plot</a></span><span class="op">(</span><span class="va">dpr_df</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dataset"</span><span class="op">)</span>, <span class="st">"system"</span>, <span class="va">response_var</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="va">dpr_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mizr_block_plot.html">mizr_block_plot</a></span><span class="op">(</span><span class="va">dpr_df</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dataset"</span><span class="op">)</span>, <span class="st">"system"</span>, <span class="va">response_var</span>,</span>
+<span>                            value_text_size <span class="op">=</span> <span class="va">block_text_size</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_cartesian.html" class="external-link">coord_cartesian</a></span><span class="op">(</span>ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.0</span>, <span class="fl">1.0</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">dpr_plot</span> <span class="op">&lt;-</span> <span class="va">dpr_plot</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">xlab</a></span><span class="op">(</span><span class="st">"dataset"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Block Plot of Systems vs. Datasets on \nMetric 'dpr'"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">f1_df</span> <span class="op">&lt;-</span> <span class="va">sdms_df</span><span class="op">[</span><span class="va">sdms_df</span><span class="op">$</span><span class="va">metric</span> <span class="op">==</span> <span class="st">"f1"</span>, <span class="op">]</span></span>
-<span><span class="va">f1_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mizr_block_plot.html">mizr_block_plot</a></span><span class="op">(</span><span class="va">f1_df</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dataset"</span><span class="op">)</span>, <span class="st">"system"</span>, <span class="va">response_var</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="va">f1_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mizr_block_plot.html">mizr_block_plot</a></span><span class="op">(</span><span class="va">f1_df</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dataset"</span><span class="op">)</span>, <span class="st">"system"</span>, <span class="va">response_var</span>,</span>
+<span>                           value_text_size <span class="op">=</span> <span class="va">block_text_size</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_cartesian.html" class="external-link">coord_cartesian</a></span><span class="op">(</span>ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.0</span>, <span class="fl">1.0</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">f1_plot</span> <span class="op">&lt;-</span> <span class="va">f1_plot</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">xlab</a></span><span class="op">(</span><span class="st">"dataset"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Block Plot of Systems vs. Datasets on \nMetric 'f1'"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">precision_df</span> <span class="op">&lt;-</span> <span class="va">sdms_df</span><span class="op">[</span><span class="va">sdms_df</span><span class="op">$</span><span class="va">metric</span> <span class="op">==</span> <span class="st">"precision"</span>, <span class="op">]</span></span>
-<span><span class="va">precision_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mizr_block_plot.html">mizr_block_plot</a></span><span class="op">(</span><span class="va">precision_df</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dataset"</span><span class="op">)</span>, <span class="st">"system"</span>, <span class="va">response_var</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="va">precision_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mizr_block_plot.html">mizr_block_plot</a></span><span class="op">(</span><span class="va">precision_df</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dataset"</span><span class="op">)</span>, <span class="st">"system"</span>, <span class="va">response_var</span>,</span>
+<span>                                  value_text_size <span class="op">=</span> <span class="va">block_text_size</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_cartesian.html" class="external-link">coord_cartesian</a></span><span class="op">(</span>ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.0</span>, <span class="fl">1.0</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">precision_plot</span> <span class="op">&lt;-</span> <span class="va">precision_plot</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">xlab</a></span><span class="op">(</span><span class="st">"dataset"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Block Plot of Systems vs. Datasets on \nMetric 'precision'"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">recall_df</span> <span class="op">&lt;-</span> <span class="va">sdms_df</span><span class="op">[</span><span class="va">sdms_df</span><span class="op">$</span><span class="va">metric</span> <span class="op">==</span> <span class="st">"recall"</span>, <span class="op">]</span></span>
-<span><span class="va">recall_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mizr_block_plot.html">mizr_block_plot</a></span><span class="op">(</span><span class="va">recall_df</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dataset"</span><span class="op">)</span>, <span class="st">"system"</span>, <span class="va">response_var</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="va">recall_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mizr_block_plot.html">mizr_block_plot</a></span><span class="op">(</span><span class="va">recall_df</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dataset"</span><span class="op">)</span>, <span class="st">"system"</span>, <span class="va">response_var</span>,</span>
+<span>                               value_text_size <span class="op">=</span> <span class="va">block_text_size</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_cartesian.html" class="external-link">coord_cartesian</a></span><span class="op">(</span>ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.0</span>, <span class="fl">1.0</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">recall_plot</span> <span class="op">&lt;-</span> <span class="va">recall_plot</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">xlab</a></span><span class="op">(</span><span class="st">"dataset"</span><span class="op">)</span> <span class="op">+</span></span>
@@ -300,9 +305,9 @@ that can be seen with some non-color cue).</p>
 <span><span class="co"># Now use a grid or a wrap to place all 7 plots on one page</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html" class="external-link">grid.arrange</a></span><span class="op">(</span><span class="va">accuracy_plot</span>, <span class="va">auc_plot</span>, <span class="va">dpr_plot</span>, <span class="va">f1_plot</span>,</span>
 <span>  <span class="va">precision_plot</span>, <span class="va">recall_plot</span>,</span>
-<span>  nrow <span class="op">=</span> <span class="fl">2</span></span>
+<span>  nrow <span class="op">=</span> <span class="fl">3</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="semait_analysis_sdms_documented_files/figure-html/ten_step_block-1.png" width="2112"></p>
+<p><img src="semait_analysis_sdms_documented_files/figure-html/ten_step_block-1.png" width="1056"></p>
 <p>These block plots provide an overview. From examining the plots, we
 see</p>
 </div>
@@ -342,7 +347,7 @@ score for each metric.</p>
 <span>  tile_text_size <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">rel</a></span><span class="op">(</span><span class="fl">3.6</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span><span class="va">brm_plot</span></span></code></pre></div>
-<p><img src="semait_analysis_sdms_documented_files/figure-html/sign_test_plot-1.png" width="1344"></p>
+<p><img src="semait_analysis_sdms_documented_files/figure-html/sign_test_plot-1.png" width="1056"></p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">brmn_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mizr_sign_test_plot.html">mizr_sign_test_plot</a></span><span class="op">(</span><span class="va">sdms_df</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dataset"</span>, <span class="st">"metric"</span><span class="op">)</span>, <span class="st">"system"</span>, <span class="va">response_var</span>,</span>
 <span>  higher_is_better <span class="op">=</span> <span class="cn">TRUE</span>, use_margins <span class="op">=</span> <span class="cn">TRUE</span>,</span>
@@ -350,7 +355,7 @@ score for each metric.</p>
 <span>  tile_text_size <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">rel</a></span><span class="op">(</span><span class="fl">3.6</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span><span class="va">brmn_plot</span></span></code></pre></div>
-<p><img src="semait_analysis_sdms_documented_files/figure-html/sign_test_plot-2.png" width="1344"></p>
+<p><img src="semait_analysis_sdms_documented_files/figure-html/sign_test_plot-2.png" width="1056"></p>
 <p>We also notice something surprising. The matrix is not always
 symmetric or anti-symmetric. For instance, examine the cells (plr, lr)
 and (lr, plr). System plr has a score better than or equal to lr 15/18
@@ -412,14 +417,14 @@ via the main effects of each score</p>
 <span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Please use "none" instead.</span></span>
 <span><span class="co">## <span style="color: #00BBBB;">ℹ</span> The deprecated feature was likely used in the <span style="color: #0000BB;">mizr</span> package.</span></span>
 <span><span class="co">##   Please report the issue to the authors.</span></span></code></pre>
-<p><img src="semait_analysis_sdms_documented_files/figure-html/main_eff-1.png" width="1344"></p>
+<p><img src="semait_analysis_sdms_documented_files/figure-html/main_eff-1.png" width="1056"></p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/mizr_main_effects_hsd_plot.html">mizr_main_effects_hsd_plot</a></span><span class="op">(</span><span class="va">sdms_df</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"system"</span>, <span class="st">"dataset"</span>, <span class="st">"metric"</span><span class="op">)</span>, <span class="st">"score"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Warning in model.matrix.default(mt, mf, contrasts): non-list contrasts argument</span></span>
 <span><span class="co">## ignored</span></span></code></pre>
 <pre><code><span><span class="co">## Warning in model.matrix.default(mt, mf, contrasts): non-list contrasts argument</span></span>
 <span><span class="co">## ignored</span></span></code></pre>
-<p><img src="semait_analysis_sdms_documented_files/figure-html/main_eff-2.png" width="1344"></p>
+<p><img src="semait_analysis_sdms_documented_files/figure-html/main_eff-2.png" width="1056"></p>
 <p>And we now display the ranking of systems in order with their average
 score. The ranking is plt &gt; lr &gt; dt</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
@@ -477,7 +482,7 @@ score. The ranking is plt &gt; lr &gt; dt</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/mizr_tile_table_plot.html">mizr_tile_table_plot</a></span><span class="op">(</span><span class="va">system_rank_df</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dataset"</span>, <span class="st">"metric"</span><span class="op">)</span>, <span class="st">"system"</span>, <span class="st">"rank"</span>,</span>
 <span>                     use_margins <span class="op">=</span> <span class="cn">TRUE</span>, tile_text_size <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">rel</a></span><span class="op">(</span><span class="fl">3.6</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="semait_analysis_sdms_documented_files/figure-html/rank_plot_system-1.png" width="1824"></p>
+<p><img src="semait_analysis_sdms_documented_files/figure-html/rank_plot_system-1.png" width="1056"></p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dataset_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"adult"</span>, <span class="st">"hmda"</span>, <span class="st">"titanic"</span><span class="op">)</span></span>
 <span></span>
@@ -498,7 +503,7 @@ score. The ranking is plt &gt; lr &gt; dt</p>
 <span></span>
 <span><span class="co"># Now use a grid or a wrap to place all 7 plots on one page</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html" class="external-link">grid.arrange</a></span><span class="op">(</span><span class="va">adult_plot</span>, <span class="va">hmda_plot</span>, <span class="va">titanic_plot</span>, nrow <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
-<p><img src="semait_analysis_sdms_documented_files/figure-html/rank_plot_system-2.png" width="1824"></p>
+<p><img src="semait_analysis_sdms_documented_files/figure-html/rank_plot_system_set-1.png" width="1536"></p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mrank_mar_df</span> <span class="op">&lt;-</span> <span class="fu">tile_table_compute_df</span><span class="op">(</span><span class="va">system_rank_df</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dataset"</span>, <span class="st">"metric"</span><span class="op">)</span>,</span>
 <span>                                      <span class="st">"system"</span>, <span class="st">"rank"</span>, use_margins <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
@@ -556,7 +561,7 @@ AQ2-AQ5.</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/mizr_tile_table_plot.html">mizr_tile_table_plot</a></span><span class="op">(</span><span class="va">metric_rank_df</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dataset"</span>, <span class="st">"system"</span><span class="op">)</span>, <span class="st">"metric"</span>, <span class="st">"rank"</span>,</span>
 <span>                     use_margins <span class="op">=</span> <span class="cn">TRUE</span>, tile_text_size <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">rel</a></span><span class="op">(</span><span class="fl">3.6</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="semait_analysis_sdms_documented_files/figure-html/rank_plot_metrics-1.png" width="1824"></p>
+<p><img src="semait_analysis_sdms_documented_files/figure-html/rank_plot_metrics-1.png" width="1056"></p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sign_test_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sign_test_compute_df.html">sign_test_compute_df</a></span><span class="op">(</span><span class="va">sdms_df</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"system"</span>, <span class="st">"dataset"</span><span class="op">)</span>, <span class="st">"metric"</span>, <span class="va">response_var</span>,</span>
 <span>  higher_is_better <span class="op">=</span> <span class="cn">TRUE</span>, use_margins <span class="op">=</span> <span class="cn">TRUE</span>, alpha <span class="op">=</span> <span class="fl">0.05</span></span>
@@ -567,7 +572,7 @@ AQ2-AQ5.</p>
 <span>  tile_text_size <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">rel</a></span><span class="op">(</span><span class="fl">3.6</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span><span class="va">brm_plot</span></span></code></pre></div>
-<p><img src="semait_analysis_sdms_documented_files/figure-html/rank_metrics-1.png" width="1344"></p>
+<p><img src="semait_analysis_sdms_documented_files/figure-html/rank_metrics-1.png" width="1056"></p>
 <p>Next we follow a similar analysis to rank the datasets</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sign_test_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sign_test_compute_df.html">sign_test_compute_df</a></span><span class="op">(</span><span class="va">sdms_df</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"system"</span>, <span class="st">"metric"</span><span class="op">)</span>, <span class="st">"dataset"</span>, <span class="va">response_var</span>,</span>
@@ -579,20 +584,20 @@ AQ2-AQ5.</p>
 <span>  tile_text_size <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">rel</a></span><span class="op">(</span><span class="fl">3.6</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span><span class="va">brm_plot</span></span></code></pre></div>
-<p><img src="semait_analysis_sdms_documented_files/figure-html/rank_datasets-1.png" width="1344"></p>
+<p><img src="semait_analysis_sdms_documented_files/figure-html/rank_datasets-1.png" width="1056"></p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/mizr_tile_table_plot.html">mizr_tile_table_plot</a></span><span class="op">(</span><span class="va">dataset_rank_df</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"system"</span>, <span class="st">"metric"</span><span class="op">)</span>, <span class="st">"dataset"</span>, <span class="st">"rank"</span>,</span>
 <span>                     use_margins <span class="op">=</span> <span class="cn">TRUE</span>, tile_text_size <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">rel</a></span><span class="op">(</span><span class="fl">3.6</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="semait_analysis_sdms_documented_files/figure-html/rank_plot_datasets-1.png" width="1824"></p>
+<p><img src="semait_analysis_sdms_documented_files/figure-html/rank_plot_datasets-1.png" width="1056"></p>
 <p>Now we perform Interaction Comparison Plots on the factor system</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/mizr_interact_compare_plot.html">mizr_interact_compare_plot</a></span><span class="op">(</span><span class="va">sdms_df</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dataset"</span>, <span class="st">"metric"</span><span class="op">)</span>, <span class="st">"system"</span>, <span class="st">"score"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_shape_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">16</span>, <span class="fl">17</span>, <span class="fl">18</span>, <span class="fl">19</span>, <span class="fl">3</span>, <span class="fl">4</span>, <span class="fl">5</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="semait_analysis_sdms_documented_files/figure-html/interactions-1.png" width="1344"></p>
+<p><img src="semait_analysis_sdms_documented_files/figure-html/interactions-1.png" width="1056"></p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/mizr_interact_compare_plot.html">mizr_interact_compare_plot</a></span><span class="op">(</span><span class="va">sdms_df</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"metric_dataset"</span><span class="op">)</span>, <span class="st">"system"</span>, <span class="st">"score"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_shape_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">16</span>, <span class="fl">17</span>, <span class="fl">18</span>, <span class="fl">19</span>, <span class="fl">3</span>, <span class="fl">4</span>, <span class="fl">5</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="semait_analysis_sdms_documented_files/figure-html/interactions-2.png" width="1344"></p>
+<p><img src="semait_analysis_sdms_documented_files/figure-html/interactions-2.png" width="1056"></p>
 <p>Here is the Histogram we plot as a check on the data</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Implement a double histogram</span></span>
@@ -619,7 +624,7 @@ AQ2-AQ5.</p>
 <code class="sourceCode R"><span><span class="va">basic_hist_plot</span></span></code></pre></div>
 <pre><code><span><span class="co">## Warning: The dot-dot notation (`..count..`) was deprecated in ggplot2 3.4.0.</span></span>
 <span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Please use `after_stat(count)` instead.</span></span></code></pre>
-<p><img src="semait_analysis_sdms_documented_files/figure-html/histogram-1.png" width="1344"></p>
+<p><img src="semait_analysis_sdms_documented_files/figure-html/histogram-1.png" width="1056"></p>
 </div>
   </div>
 
