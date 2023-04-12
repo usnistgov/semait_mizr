@@ -22,7 +22,7 @@ and configuration that supports R 4.2.2 and ggplot 3.4.1. It has been tested bot
 been partially implemented on earlier versions of R and ggplot, some functions may have depreciation warnings.
 
 The main mizr plotting methods are named `mizr_YYY_plot()`.
-Every `mizr_YYY_plot()` plot method produces a plot as a ggplot object and **returns that ggplot object**. The benefit of this design decision is that many changes (including theme changes) can be customized by altering or augmenting the returned ggplot object (such as `<plot_object> + theme(...)`) without having to examine the mizr method source. A second design feature is that every ``mizr_YYY_plot()` is designed to call two sub-methods in sequence: A `zzz_compute_df()` method that comuptes the data frame; and a `zzz_produce_plot()` method that takes that computed dataframe and renders the plot. This design feature provides a way to get the raw data frame of any plot's data. More details are in the [MIg analyZeR (mizr) Plot Library Requirements vignette](mizr/vignettes/mizr_plot_library.Rmd).
+Every `mizr_YYY_plot()` plot method produces a plot as a ggplot object and **returns that ggplot object**. The benefit of this design decision is that many changes (including theme changes) can be customized by altering or augmenting the returned ggplot object (such as `<plot_object> + theme(...)`) without having to examine the mizr method source. A second design feature is that every ``mizr_YYY_plot()` is designed to call two sub-methods in sequence: A `zzz_compute_df()` method that computes the data frame; and a `zzz_produce_plot()` method that takes that computed dataframe and renders the plot. This design feature provides a way to get the raw data frame of any plot's data. More details are in the [MIg analyZeR (mizr) Plot Library Requirements vignette](mizr/vignettes/mizr_plot_library.Rmd).
 
 ## Contact
 
@@ -234,7 +234,7 @@ report(package_coverage(combined_types=FALSE),file="R_coverage_report.html",brow
 
 # R: Code Quality
 
-This package conforms to the `lintr` package, excluding the documented vignettes (because `knitr` produces blocks of commented code, which fail the `lintr`). To run the code cheks, within the `mizr` directory, in an R terminal run
+This package conforms to the `lintr` package, excluding the documented vignettes (because `knitr` produces blocks of commented code, which fail the `lintr`). To run the code checks, within the `mizr` directory, in an R terminal run
 
 ```
 Rscript -e "library(lintr);lintr::lint_package()"
